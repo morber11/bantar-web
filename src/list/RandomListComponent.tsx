@@ -61,9 +61,6 @@ const RandomListComponent: React.FC = () => {
                 )}
             </div>
             <button onClick={pickRandomItem}>New</button>
-            {list.length === 0 && usedList.length === 0 && (
-                <p>All items have been used!</p>
-            )}
         </div>
     );
 };
