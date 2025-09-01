@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { fetchAllQuestions } from '../api/apiService';
+import type { ListItem } from '../../types';
 
-type ListItem = {
-    id: number;
-    text: string;
-};
+interface RandomListComponentProps {
+    list: ListItem[];
+    setList: (updatedList: ListItem[]) => void;
+}
 
-const RandomListComponent: React.FC = () => {
-    const [list, setList] = useState<ListItem[]>([]);
+const RandomListComponent: React.FC<RandomListComponentProps> = ({ list, setList }) => {
     const [usedList, setUsedList] = useState<ListItem[]>([]);
     const [randomItem, setRandomItem] = useState<ListItem | null>(null);
-
-    const fetchList = async () => {
-        try {
-            const data = await fetchAllQuestions()
-            setList(data);
-        } catch (error) {
-            console.error('Error fetching the list:', error);
-        }
-    };
 
     const pickRandomItem = () => {
         if (list.length > 0) {
@@ -31,7 +21,8 @@ const RandomListComponent: React.FC = () => {
     };
 
     const updateLists = (selectedItem: ListItem) => {
-        setList((prevList) => prevList.filter((item) => item.id !== selectedItem.id));
+        const updatedList = list.filter((item) => item.id !== selectedItem.id);
+        setList(updatedList);
         setUsedList((prevUsedList) => [...prevUsedList, selectedItem]);
     };
 
@@ -43,24 +34,24 @@ const RandomListComponent: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchList();
-    }, []);
-
-    useEffect(() => {
         swapLists();
     }, [list]);
 
     return (
-        <div>
-            <h1>Bantar 2 Cool Version</h1>
-            <div>
+        <div className="flex flex-col items-center p-4">
+            <h1 className="text-xl font-semibold mb-4">Bantar 2 Cool Version</h1>
+            <div className="mb-4">
                 {randomItem ? (
-                    <h2>{randomItem.text}</h2>
+                    <h2 className="text-2xl font-medium">{randomItem.text}</h2>
                 ) : (
-                    <p>No item selected yet.</p>
+                    <p className="text-lg text-gray-500">No item selected yet.</p>
                 )}
             </div>
-            <button onClick={pickRandomItem}>New</button>
+            <button
+                onClick={pickRandomItem}
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 mb-4">
+                New
+            </button>
         </div>
     );
 };
