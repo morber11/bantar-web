@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchQuestionsByRange } from '../api/apiService';
+import { fetchAllQuestions } from '../api/apiService';
 
 type ListItem = {
     id: number;
@@ -13,7 +13,7 @@ const RandomListComponent: React.FC = () => {
 
     const fetchList = async () => {
         try {
-            const data = await fetchQuestionsByRange(0, 10);
+            const data = await fetchAllQuestions()
             setList(data);
         } catch (error) {
             console.error('Error fetching the list:', error);
