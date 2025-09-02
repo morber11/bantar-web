@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { debounce } from 'lodash';
 import type { ListItem } from '../../types';
 
 interface RandomListComponentProps {
@@ -20,9 +21,12 @@ const RandomListComponent: React.FC<RandomListComponentProps> = ({ list, setList
         }
     };
 
+    const debouncePickRandomItem = debounce(pickRandomItem, 500, { leading: true, trailing: false });
+
     const updateLists = (selectedItem: ListItem) => {
         const updatedList = list.filter((item) => item.id !== selectedItem.id);
         setList(updatedList);
+
         setUsedList((prevUsedList) => [...prevUsedList, selectedItem]);
     };
 
@@ -34,8 +38,11 @@ const RandomListComponent: React.FC<RandomListComponentProps> = ({ list, setList
     };
 
     useEffect(() => {
+        if (list.length > 0 && randomItem === null) {
+            pickRandomItem();
+        }
         swapLists();
-    }, [list]);
+    }, [list, randomItem]);
 
     return (
         <div className="flex flex-col items-center p-4">
@@ -48,7 +55,8 @@ const RandomListComponent: React.FC<RandomListComponentProps> = ({ list, setList
                 )}
             </div>
             <button
-                onClick={pickRandomItem}
+                onClick={debouncePickRandomItem}
+                disabled={list.length === 0}
                 className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 mb-4">
                 New
             </button>
