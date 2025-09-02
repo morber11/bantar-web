@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchAllQuestions } from '../api/apiService';
-import type { ListItem } from '../types'; // Import ListItem from types.ts
+import type { ListItem } from '../types'; 
 
 const useFetchList = () => {
     const [list, setList] = useState<ListItem[]>([]);
