@@ -1,31 +1,18 @@
-import { useEffect, useState } from 'react';
 import './App.css'
-import RandomListComponent from './components/list/RandomListComponent';
-import useFetchList from './hooks/useFetchList';
-import type { ListItem } from './types';
+import { BrowserRouter, Routes, Route } from "react-router";
+import IcebreakersPage from './pages/IcebreakersPage';
+import HomePage from './pages/HomePage';
 
 function App() {
-  const { list: fetchedList, loading, error } = useFetchList();
-  const [list, setList] = useState<ListItem[]>(fetchedList);
-
-  useEffect(() => {
-    setList(fetchedList);
-  }, [fetchedList]);
-
-  const updateList = (updatedList: ListItem[]) => {
-    setList(updatedList);
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
   return (
     <>
-      <RandomListComponent list={list} setList={updateList} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/icebreakers" element={<IcebreakersPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
