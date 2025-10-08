@@ -23,9 +23,8 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
     
     const edgeZone = 30;
     const leftEdgeHandlers = useSwipeable({
-        onSwipedRight: (event: { initial: [number, number] }) => {
-            const startX = event.initial[0];
-            if (!isOpen && startX > 10 && startX < edgeZone) setIsOpen(true);
+        onSwipedRight: () => {
+            if (!isOpen) setIsOpen(true);
             setShowHint(false);
         },
         delta: minSwipeDistance,
@@ -92,7 +91,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             </StyledButton>
 
             {/* left and right invisible edge swipe targets */}
-            <div {...leftEdgeHandlers} className="md:hidden fixed left-0 top-0 h-full z-40" style={{ width: edgeZone }} />
+            <div {...leftEdgeHandlers} className="md:hidden fixed left-0 top-0 h-full z-40" style={{ width: '75vw' }} />
             <div {...rightEdgeHandlers} className="md:hidden fixed right-0 top-0 h-full z-40" style={{ width: edgeZone }} />
 
             {/* for mobile only - show sidebar hint */}
