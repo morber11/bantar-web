@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
 import { fetchAllQuestions } from '../api/apiService';
-import type { ListItem } from '../types'; 
+import type { ListItem } from '../types';
 
-interface UseFetchListOptions {
-    selectedCategories?: string[];
-}
-
-const useFetchList = (options: UseFetchListOptions = {}) => {
-    const { selectedCategories = [] } = options;
+const useFetchList = () => {
     const [list, setList] = useState<ListItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -18,7 +13,7 @@ const useFetchList = (options: UseFetchListOptions = {}) => {
             setError(null);
             try {
                 const data = await fetchAllQuestions();
-                
+
                 setList(data);
             } catch (error) {
                 setError('Error fetching the list');
@@ -29,7 +24,7 @@ const useFetchList = (options: UseFetchListOptions = {}) => {
         };
 
         fetchData();
-    }, [selectedCategories]);
+    }, []);
 
     return { list, loading, error };
 };

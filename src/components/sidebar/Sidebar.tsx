@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, type ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import StyledButton from '../ui/StyledButton';
 
 interface SidebarProps {
@@ -99,13 +100,13 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                         <ul className="space-y-2">
                             {links.map(({ to, label }) => (
                                 <li key={to}>
-                                    <a
-                                        href={to}
-                                        className="flex items-center px-4 py-3 text-slate-200 hover:bg-slate-700 hover:text-white rounded-lg transition-colors"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        <span className="text-lg">{label}</span>
-                                    </a>
+                                            <Link
+                                                to={to}
+                                                className="flex items-center px-4 py-3 text-slate-200 hover:bg-slate-700 hover:text-white rounded-lg transition-colors"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <span className="text-lg">{label}</span>
+                                            </Link>
                                 </li>
                             ))}
                         </ul>
