@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen">
-        <div>
+        <div className="app-content">
           <main>
             <Routes>
               <Route path="/" element={<HomePage />} />

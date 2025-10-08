@@ -1,5 +1,9 @@
-#root {
+#root, html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.app-content {
   width: auto;
-  margin: 1rem;
   padding: 1rem;
 }
