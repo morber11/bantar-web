@@ -60,12 +60,14 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
         <>
             <StyledButton
                 onClick={() => setIsOpen(true)}
-                className="hidden md:flex fixed top-4 left-4 z-30 items-center justify-center p-2 w-10 h-10 rounded-lg"
+                className="hidden md:flex fixed top-4 left-4 z-30 items-center justify-center w-10 h-10 rounded-lg"
                 aria-label="Open sidebar"
             >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <div className="space-y-2">
+                    <span className="block h-0.5 w-5 bg-white"></span>
+                    <span className="block h-0.5 w-5 bg-white"></span>
+                    <span className="block h-0.5 w-5 bg-white"></span>
+                </div>
             </StyledButton>
 
             {isOpen && (
@@ -85,10 +87,10 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                         <h2 className="text-2xl font-semibold">Menu</h2>
                         <StyledButton
                             onClick={() => setIsOpen(false)}
-                            className="p-2 w-10 h-10 rounded-lg"
+                            className="no-select p-2 w-10 h-10 rounded-lg"
                             aria-label="Close sidebar"
                         >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </StyledButton>
