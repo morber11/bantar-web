@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, type ReactElement } from 'react';
+import { useSwipeable } from 'react-swipeable';
 import { Link } from 'react-router-dom';
 import StyledButton from '../ui/StyledButton';
 
@@ -14,86 +15,49 @@ const links = [
 
 const Sidebar = ({ children, childProps }: SidebarProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [touchStart, setTouchStart] = useState(0);
-    const [touchEnd, setTouchEnd] = useState(0);
+    // touch start/end state not used when using react-swipeable
     const sidebarRef = useRef<HTMLElement>(null);
 
-    const minSwipeDistance = 50;
+    const minSwipeDistance = 20; // smaller required travel for user-friendly swipes
 
-    const onTouchStart = (e: React.TouchEvent) => {
-        setTouchEnd(0);
-        setTouchStart(e.targetTouches[0].clientX);
-    };
-
-    const onTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX);
-    };
-
-    const onTouchEnd = () => {
-        if (!touchStart || !touchEnd) return;
-
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe && isOpen) {
-            setIsOpen(false);
-        }
-        if (!isOpen) {
-            if (isRightSwipe && touchStart < 50) {
-                setIsOpen(true);
-            }
-            if (isLeftSwipe && touchStart > (window.innerWidth - 50)) {
-                setIsOpen(true);
-            }
-        }
-    };
-    useEffect(() => {
-        const minSwipe = minSwipeDistance;
-        const pointerStartRef = { current: 0 } as { current: number };
-        const pointerEndRef = { current: 0 } as { current: number };
-
-        const onPointerDown = (e: PointerEvent) => {
-            if (e.pointerType !== 'touch') return;
-            pointerEndRef.current = 0;
-            pointerStartRef.current = e.clientX;
+    
+    const edgeZone = 30;
+    const leftEdgeHandlers = useSwipeable({
+        onSwipedRight: (event: { initial: [number, number] }) => {
+            const startX = event.initial[0];
+            if (!isOpen && startX > 10 && startX < edgeZone) setIsOpen(true);
             setShowHint(false);
-        };
+        },
+        delta: minSwipeDistance,
+        trackTouch: true,
+        trackMouse: false,
+    });
 
-        const onPointerMove = (e: PointerEvent) => {
-            if (e.pointerType !== 'touch') return;
-            pointerEndRef.current = e.clientX;
-        };
+    const rightEdgeHandlers = useSwipeable({
+        onSwipedLeft: (event: { initial: [number, number] }) => {
+            const startX = event.initial[0];
+            if (!isOpen && startX < (window.innerWidth - 10) && startX > (window.innerWidth - edgeZone)) setIsOpen(true);
+            setShowHint(false);
+        },
+        delta: minSwipeDistance,
+        trackTouch: true,
+        trackMouse: false,
+    });
 
-        const onPointerUp = () => {
-            const start = pointerStartRef.current;
-            const end = pointerEndRef.current;
-            if (!start || !end) return;
-            const distance = start - end;
-            const left = distance > minSwipe;
-            const right = distance < -minSwipe;
+    const insideSidebarHandlers = useSwipeable({
+        onSwipedLeft: () => {
+            if (isOpen) setIsOpen(false);
+        },
+        delta: minSwipeDistance,
+        trackTouch: true,
+        trackMouse: false,
+    });
 
-            if (right && !isOpen && start < 50) {
-                setIsOpen(true);
-            }
-            if (left && !isOpen && start > (window.innerWidth - 50)) {
-                setIsOpen(true);
-            }
-            if (left && isOpen) {
-                setIsOpen(false);
-            }
-        };
-
-        window.addEventListener('pointerdown', onPointerDown);
-        window.addEventListener('pointermove', onPointerMove);
-        window.addEventListener('pointerup', onPointerUp);
-
-        return () => {
-            window.removeEventListener('pointerdown', onPointerDown);
-            window.removeEventListener('pointermove', onPointerMove);
-            window.removeEventListener('pointerup', onPointerUp);
-        };
-    }, [isOpen]);
+    // crazy remove ref from  handlers so we don't overwrite the explicit sidebarRef. 
+    const stripRef = <T extends Record<string, unknown>>(obj: T) => {
+        return Object.fromEntries(Object.entries(obj).filter(([k]) => k !== 'ref')) as T;
+    };
+    const insideSidebarHandlersNoRef = stripRef(insideSidebarHandlers as unknown as Record<string, unknown>);
 
     const [showHint, setShowHint] = useState(false);
     useEffect(() => {
@@ -127,6 +91,10 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 </svg>
             </StyledButton>
 
+            {/* left and right invisible edge swipe targets */}
+            <div {...leftEdgeHandlers} className="md:hidden fixed left-0 top-0 h-full z-40" style={{ width: edgeZone }} />
+            <div {...rightEdgeHandlers} className="md:hidden fixed right-0 top-0 h-full z-40" style={{ width: edgeZone }} />
+
             {/* for mobile only - show sidebar hint */}
             {showHint && (
                 <div className="md:hidden fixed left-2 top-1/2 transform -translate-y-1/2 z-40">
@@ -147,9 +115,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
 
             <aside
                 ref={sidebarRef}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
+                {...insideSidebarHandlersNoRef}
                 className={`sidebar fixed top-0 left-0 h-full w-64 bg-slate-800 text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
             >
