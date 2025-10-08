@@ -4,7 +4,7 @@ import type { ListItem } from '../types';
 
 const useFetchByCategories = (categories: string[] = []) => {
     const [list, setList] = useState<ListItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(categories && categories.length > 0);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
