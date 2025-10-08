@@ -15,57 +15,13 @@ const links = [
 
 const Sidebar = ({ children, childProps }: SidebarProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    // touch start/end state not used when using react-swipeable
     const sidebarRef = useRef<HTMLElement>(null);
 
-    const minSwipeDistance = 20; // smaller required travel for user-friendly swipes
-
-    
-    const edgeZone = 30;
-    const leftEdgeHandlers = useSwipeable({
-        onSwipedRight: () => {
-            if (!isOpen) setIsOpen(true);
-            setShowHint(false);
-        },
-        delta: minSwipeDistance,
-        trackTouch: true,
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => !isOpen && setIsOpen(true),
+        onSwipedLeft: () => isOpen && setIsOpen(false),
         trackMouse: false,
     });
-
-    const rightEdgeHandlers = useSwipeable({
-        onSwipedLeft: (event: { initial: [number, number] }) => {
-            const startX = event.initial[0];
-            if (!isOpen && startX < (window.innerWidth - 10) && startX > (window.innerWidth - edgeZone)) setIsOpen(true);
-            setShowHint(false);
-        },
-        delta: minSwipeDistance,
-        trackTouch: true,
-        trackMouse: false,
-    });
-
-    const insideSidebarHandlers = useSwipeable({
-        onSwipedLeft: () => {
-            if (isOpen) setIsOpen(false);
-        },
-        delta: minSwipeDistance,
-        trackTouch: true,
-        trackMouse: false,
-    });
-
-    // crazy remove ref from  handlers so we don't overwrite the explicit sidebarRef. 
-    const stripRef = <T extends Record<string, unknown>>(obj: T) => {
-        return Object.fromEntries(Object.entries(obj).filter(([k]) => k !== 'ref')) as T;
-    };
-    const insideSidebarHandlersNoRef = stripRef(insideSidebarHandlers as unknown as Record<string, unknown>);
-
-    const [showHint, setShowHint] = useState(false);
-    useEffect(() => {
-        const isMobile = window.innerWidth < 768;
-        if (!isMobile) return;
-        setShowHint(true);
-        const t = setTimeout(() => setShowHint(false), 3500);
-        return () => clearTimeout(t);
-    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -79,7 +35,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
     }, [isOpen]);
 
     return (
-        <>
+        <div {...swipeHandlers}>
             <StyledButton
                 onClick={() => setIsOpen(true)}
                 className="hidden md:flex fixed top-4 left-4 z-30 items-center justify-center p-2 w-10 h-10 rounded-lg"
@@ -90,21 +46,6 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 </svg>
             </StyledButton>
 
-            {/* left and right invisible edge swipe targets */}
-            <div {...leftEdgeHandlers} className="md:hidden fixed left-0 top-0 h-full z-40" style={{ width: '75vw' }} />
-            <div {...rightEdgeHandlers} className="md:hidden fixed right-0 top-0 h-full z-40" style={{ width: edgeZone }} />
-
-            {/* for mobile only - show sidebar hint */}
-            {showHint && (
-                <div className="md:hidden fixed left-2 top-1/2 transform -translate-y-1/2 z-40">
-                    <button
-                        aria-hidden
-                        onClick={() => { setIsOpen(true); setShowHint(false); }}
-                        className="w-2 h-12 rounded-full bg-slate-600/80 hover:bg-slate-600 transition-all animate-pulse"
-                    />
-                </div>
-            )}
-
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black/50 z-40 transition-opacity"
@@ -114,7 +55,6 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
 
             <aside
                 ref={sidebarRef}
-                {...insideSidebarHandlersNoRef}
                 className={`sidebar fixed top-0 left-0 h-full w-64 bg-slate-800 text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
             >
@@ -153,7 +93,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                     <div className="absolute top-0 right-0 w-1 h-full bg-slate-600 shadow-lg" />
                 </div>
             </aside>
-        </>
+        </div>
     );
 };
 
