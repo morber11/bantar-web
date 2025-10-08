@@ -82,7 +82,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             >
                 <div className="flex flex-col h-full">
                     <div className="flex items-center justify-between p-4 border-b border-slate-700">
-                        <h2 className="text-xl font-semibold">Menu</h2>
+                        <h2 className="text-2xl font-semibold">Menu</h2>
                         <StyledButton
                             onClick={() => setIsOpen(false)}
                             className="p-2 w-10 h-10 rounded-lg"
@@ -103,7 +103,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                                         className="flex items-center px-4 py-3 text-slate-200 hover:bg-slate-700 hover:text-white rounded-lg transition-colors"
                                         onClick={() => setIsOpen(false)}
                                     >
-                                        <span className="text-lg">{label}</span>
+                                        <span className="text-xl">{label}</span>
                                     </Link>
                                 </li>
                             ))}
