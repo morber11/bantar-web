@@ -1,50 +1,66 @@
 import React, { useState } from 'react';
-import { debounce } from 'lodash';
 import type { ListItem } from '../../types';
+import StyledButton from '../ui/StyledButton';
 
 interface RandomListComponentProps {
     list: ListItem[];
 }
 
 const RandomListComponent: React.FC<RandomListComponentProps> = ({ list }) => {
-    const [currentItem, setCurrentItem] = useState<ListItem | null>(null);
-
-    const pickRandomItem = debounce(() => {
-        if (list.length === 0) return;
+    const [currentItem, setCurrentItem] = useState<ListItem | null>(() => {
+        if (list.length === 0) return null;
         const randomIndex = Math.floor(Math.random() * list.length);
-        const selectedItem = list[randomIndex];
+        return list[randomIndex];
+    });
+
+    const pickRandomItem = () => {
+        if (list.length === 0) return;
+
+        if (list.length === 1) {
+            setCurrentItem(list[0]);
+            return;
+        }
+
+        let randomIndex: number;
+        let selectedItem: ListItem;
+
+        do {
+            randomIndex = Math.floor(Math.random() * list.length);
+            selectedItem = list[randomIndex];
+        } while (currentItem && selectedItem.text === currentItem.text);
 
         setCurrentItem(selectedItem);
-    }, 50);
+    };
 
-    if (!currentItem && list.length > 0) {
-        pickRandomItem();
-    }
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.code === 'Space' || e.code === 'Enter') {
+            e.preventDefault();
+            pickRandomItem();
+        }
+    };
 
     return (
-        <div className="flex flex-col items-center text-center h-screen">
-            <div style={{ paddingTop: '10vh' }}>
-                <h1 className="text-xl font-semibold mb-8">Icebreakers</h1>
-                <div className="w-full max-w-md mx-auto px-4 mb-16">
-                    {currentItem ? (
-                        <h2 className="text-2xl font-medium break-words">
+        <div onKeyDown={handleKeyDown} tabIndex={0}>
+            <div className="flex flex-col items-center gap-8 p-8">
+                <div className="w-full md:w-4/5 flex items-center justify-center min-h-[200px]">
+                    {list.length === 0 ? (
+                        <p className="text-center text-lg">
+                            No items available
+                        </p>
+                    ) : currentItem ? (
+                        <h2 className="text-center text-xl font-semibold">
                             {currentItem.text}
                         </h2>
                     ) : (
-                        <p className="text-lg text-gray-500">Ready to pick an item</p>
+                        <p className="text-center text-lg">
+                            Loading...
+                        </p>
                     )}
                 </div>
-            </div>
 
-            <div style={{ position: 'fixed', bottom: '10vh', left: '50%', transform: 'translateX(-50%)' }}>
-                <button
-                    onClick={pickRandomItem}
-                    disabled={list.length === 0}
-                    aria-label="Pick random item"
-                    className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 
-                              disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200
-                              focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                >New</button>
+                <StyledButton onClick={pickRandomItem} disabled={list.length === 0} aria-label="Pick random question">
+                    New Icebreaker
+                </StyledButton>
             </div>
         </div>
     );
