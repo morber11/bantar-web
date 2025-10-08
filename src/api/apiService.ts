@@ -37,3 +37,14 @@ export const fetchQuestionsByRange = async (startId: number, limit: number) => {
         throw new Error(`Failed to fetch questions in range ${startId} - ${limit}`);
     }
 };
+
+export const fetchQuestionsByCategories = async (categories: string[]) => {
+    try {
+        const url = endpoints.getQuestionsByCategories(categories);
+        const response = await apiService.get(url);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching questions by categories:', error);
+        throw new Error('Failed to fetch questions by categories');
+    }
+};
