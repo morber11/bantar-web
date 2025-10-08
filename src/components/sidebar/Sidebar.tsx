@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, type ReactElement } from 'react';
-import { useSwipeable } from 'react-swipeable';
 import { Link } from 'react-router-dom';
 import StyledButton from '../ui/StyledButton';
 
@@ -16,12 +15,35 @@ const links = [
 const Sidebar = ({ children, childProps }: SidebarProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const sidebarRef = useRef<HTMLElement>(null);
+    const touchStartX = useRef<number>(0);
+    const touchEndX = useRef<number>(0);
 
-    const swipeHandlers = useSwipeable({
-        onSwipedRight: () => !isOpen && setIsOpen(true),
-        onSwipedLeft: () => isOpen && setIsOpen(false),
-        trackMouse: false,
-    });
+    useEffect(() => {
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartX.current = e.touches[0].clientX;
+        };
+
+        const handleTouchEnd = (e: TouchEvent) => {
+            touchEndX.current = e.changedTouches[0].clientX;
+            const diff = touchStartX.current - touchEndX.current;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && isOpen) {
+                    setIsOpen(false);
+                } else if (diff < 0 && !isOpen) {
+                    setIsOpen(true);
+                }
+            }
+        };
+
+        document.addEventListener('touchstart', handleTouchStart, { passive: true });
+        document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+        return () => {
+            document.removeEventListener('touchstart', handleTouchStart);
+            document.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -36,12 +58,6 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
 
     return (
         <>
-            <div 
-                {...swipeHandlers}
-                className="fixed inset-0 z-10"
-                style={{ pointerEvents: 'none', touchAction: 'pan-y' }}
-            />
-
             <StyledButton
                 onClick={() => setIsOpen(true)}
                 className="hidden md:flex fixed top-4 left-4 z-30 items-center justify-center p-2 w-10 h-10 rounded-lg"
