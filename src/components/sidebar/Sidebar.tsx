@@ -35,7 +35,13 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
     }, [isOpen]);
 
     return (
-        <div {...swipeHandlers}>
+        <>
+            <div 
+                {...swipeHandlers}
+                className="fixed inset-0 z-10"
+                style={{ pointerEvents: 'none', touchAction: 'pan-y' }}
+            />
+
             <StyledButton
                 onClick={() => setIsOpen(true)}
                 className="hidden md:flex fixed top-4 left-4 z-30 items-center justify-center p-2 w-10 h-10 rounded-lg"
@@ -93,7 +99,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                     <div className="absolute top-0 right-0 w-1 h-full bg-slate-600 shadow-lg" />
                 </div>
             </aside>
-        </div>
+        </>
     );
 };
 
