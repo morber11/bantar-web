@@ -39,10 +39,70 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
         if (isLeftSwipe && isOpen) {
             setIsOpen(false);
         }
-        if (isRightSwipe && !isOpen && touchStart < 50) {
-            setIsOpen(true);
+        if (!isOpen) {
+            if (isRightSwipe && touchStart < 50) {
+                setIsOpen(true);
+            }
+            if (isLeftSwipe && touchStart > (window.innerWidth - 50)) {
+                setIsOpen(true);
+            }
         }
     };
+    useEffect(() => {
+        const minSwipe = minSwipeDistance;
+        const pointerStartRef = { current: 0 } as { current: number };
+        const pointerEndRef = { current: 0 } as { current: number };
+
+        const onPointerDown = (e: PointerEvent) => {
+            if (e.pointerType !== 'touch') return;
+            pointerEndRef.current = 0;
+            pointerStartRef.current = e.clientX;
+            setShowHint(false);
+        };
+
+        const onPointerMove = (e: PointerEvent) => {
+            if (e.pointerType !== 'touch') return;
+            pointerEndRef.current = e.clientX;
+        };
+
+        const onPointerUp = () => {
+            const start = pointerStartRef.current;
+            const end = pointerEndRef.current;
+            if (!start || !end) return;
+            const distance = start - end;
+            const left = distance > minSwipe;
+            const right = distance < -minSwipe;
+
+            if (right && !isOpen && start < 50) {
+                setIsOpen(true);
+            }
+            if (left && !isOpen && start > (window.innerWidth - 50)) {
+                setIsOpen(true);
+            }
+            if (left && isOpen) {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+
+        return () => {
+            window.removeEventListener('pointerdown', onPointerDown);
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('pointerup', onPointerUp);
+        };
+    }, [isOpen]);
+
+    const [showHint, setShowHint] = useState(false);
+    useEffect(() => {
+        const isMobile = window.innerWidth < 768;
+        if (!isMobile) return;
+        setShowHint(true);
+        const t = setTimeout(() => setShowHint(false), 3500);
+        return () => clearTimeout(t);
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -66,6 +126,17 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </StyledButton>
+
+            {/* for mobile only - show sidebar hint */}
+            {showHint && (
+                <div className="md:hidden fixed left-2 top-1/2 transform -translate-y-1/2 z-40">
+                    <button
+                        aria-hidden
+                        onClick={() => { setIsOpen(true); setShowHint(false); }}
+                        className="w-2 h-12 rounded-full bg-slate-600/80 hover:bg-slate-600 transition-all animate-pulse"
+                    />
+                </div>
+            )}
 
             {isOpen && (
                 <div
@@ -100,13 +171,13 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                         <ul className="space-y-2">
                             {links.map(({ to, label }) => (
                                 <li key={to}>
-                                            <Link
-                                                to={to}
-                                                className="flex items-center px-4 py-3 text-slate-200 hover:bg-slate-700 hover:text-white rounded-lg transition-colors"
-                                                onClick={() => setIsOpen(false)}
-                                            >
-                                                <span className="text-lg">{label}</span>
-                                            </Link>
+                                    <Link
+                                        to={to}
+                                        className="flex items-center px-4 py-3 text-slate-200 hover:bg-slate-700 hover:text-white rounded-lg transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <span className="text-lg">{label}</span>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
