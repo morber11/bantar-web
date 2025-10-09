@@ -1,7 +1,7 @@
 import React from 'react';
 
 const StyledButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className = '', disabled, ...rest }) => {
-  const base = `bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full`;
+  const base = `bg-slate-800 hover:bg-slate-700 text-white font-bold text-base px-6 py-3 rounded-full md:text-sm md:px-4 md:py-2`;
   const disabledClass = disabled ? 'opacity-60 cursor-not-allowed' : '';
 
   return (
