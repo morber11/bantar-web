@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: env.VITE_APP_ENV === 'prod' ? prodProxy : devProxy,
       allowedHosts: ['bantar.morber.xyz'],
-      hmr: mode === 'development',
+      hmr: false,
     },
   };
 });
