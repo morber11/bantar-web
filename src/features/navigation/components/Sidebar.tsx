@@ -12,6 +12,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/icebreakers', label: 'Icebreakers' },
   { to: '/debates', label: 'Debates' },
+  { to: '/history', label: 'History' },
 ];
 
 // we need all the useEffects here for the swipe/focus management
