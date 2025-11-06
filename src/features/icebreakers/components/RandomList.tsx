@@ -26,10 +26,11 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
 
     if (list.length === 1) {
       setCurrentItem(list[0]);
-      addToHistory({
-        text: list[0].text,
-        type: 'icebreaker',
-      });
+        addToHistory({
+          text: normalizeText(list[0].text),
+          type: 'icebreaker',
+          categories: normalizeCategories(list[0].categories),
+        });
       return;
     }
 
@@ -43,10 +44,11 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
 
     const normalized = normalizeText(selectedItem.text);
     setCurrentItem(selectedItem);
-    addToHistory({
-      text: normalized,
-      type: 'icebreaker',
-    });
+      addToHistory({
+        text: normalized,
+        type: 'icebreaker',
+        categories: normalizeCategories(selectedItem.categories),
+      });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

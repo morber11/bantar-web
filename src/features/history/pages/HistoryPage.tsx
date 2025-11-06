@@ -27,6 +27,15 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div className="flex-1 min-w-0">
           <p className="text-lg font-medium mb-2 break-words">{normalizeText(item.text)}</p>
+          {item.categories && item.categories.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-2">
+              {item.categories.map((c) => (
+                <span key={c} className="inline-block bg-slate-100 text-slate-800 text-xs px-2 py-0.5 rounded-full border border-slate-200">
+                  {c}
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-sm text-gray-600">
             <span className="capitalize">{item.type}</span>
             <span>{formatDate(item.timestamp)}</span>
