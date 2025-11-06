@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { DebateItem } from '../types';
 import StyledButton from '../../../shared/ui/StyledButton';
+import Spinner from '../../../shared/ui/Spinner';
 
 interface RandomListProps {
   list: DebateItem[];
@@ -48,7 +49,9 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
           ) : currentItem ? (
             <h2 className="text-center text-xl font-semibold">{currentItem.text}</h2>
           ) : (
-            <p className="text-center text-lg">Loading...</p>
+            <div className="flex items-center justify-center">
+              <Spinner />
+            </div>
           )}
         </div>
 

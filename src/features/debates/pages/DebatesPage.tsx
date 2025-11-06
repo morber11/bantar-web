@@ -4,6 +4,7 @@ import Sidebar from '../../navigation/components/Sidebar';
 import DebateSidebarContent from '../sidebarContent/DebateSidebarContent';
 import useFetchByCategories from '../hooks/useFetchByCategories';
 import { debateCategoryKeys } from '../types';
+import Spinner from '../../../shared/ui/Spinner';
 
 export default function DebatesPage() {
   const defaultCategories = [...debateCategoryKeys];
@@ -37,7 +38,7 @@ export default function DebatesPage() {
           <div>
             {loading ? (
               <div className="flex items-center justify-center min-h-[200px]">
-                <p className="text-center text-lg">Loading debates...</p>
+                <Spinner />
               </div>
             ) : error ? (
               <div className="flex items-center justify-center min-h-[200px]">
