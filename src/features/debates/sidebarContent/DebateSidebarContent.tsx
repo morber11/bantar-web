@@ -64,7 +64,7 @@ const DebateSidebarContent = ({ selectedCategories, onCategoriesChange }: Debate
                 }`}
               >
                 {selectedCategories.includes(id) && (
-                  <Icon name="check" className="w-3 h-3 text-white" />
+                  <Icon name="check" className="w-3 h-3 text-white" aria-hidden />
                 )}
               </div>
             </button>

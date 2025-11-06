@@ -1,3 +1,11 @@
+/**
+ * Icon component for rendering common SVG icons.
+ * 
+ * Available icons:
+ * - 'close': X icon for closing/dismissing UI elements
+ * - 'check': Checkmark icon for indicating selection or completion
+ * - 'menu': Hamburger menu icon for navigation
+ */
 export type IconName = 'close' | 'check' | 'menu';
 
 interface IconProps {
@@ -22,7 +30,7 @@ const iconPaths: Record<IconName, React.ReactNode> = {
   ),
 };
 
-const Icon = ({ name, className = 'w-6 h-6', 'aria-hidden': ariaHidden = true }: IconProps) => {
+const Icon = ({ name, className = 'w-6 h-6', 'aria-hidden': ariaHidden }: IconProps) => {
   return (
     <svg
       className={className}

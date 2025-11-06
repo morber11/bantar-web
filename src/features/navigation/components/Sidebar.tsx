@@ -143,7 +143,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
               className="no-select inline-flex items-center justify-center !p-0 w-10 h-10 rounded-lg"
               aria-label="Close sidebar"
             >
-              <Icon name="close" className="w-8 h-8" />
+              <Icon name="close" className="w-8 h-8" aria-hidden />
             </StyledButton>
           </div>
 
