@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { ListItem } from '../types';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Spinner from '../../../shared/ui/Spinner';
@@ -21,16 +21,29 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
   const { addToHistory } = useHistory();
   const { showCategoryDetails } = useAppSettings();
 
+  const initialItemRef = useRef<ListItem | null>(currentItem);
+  useEffect(() => {
+    if (initialItemRef.current) {
+      addToHistory({
+        text: normalizeText(initialItemRef.current.text),
+        type: 'icebreaker',
+        categories: normalizeCategories(initialItemRef.current.categories),
+      });
+      initialItemRef.current = null;
+    }
+  }, [addToHistory]);
+
   const pickRandomItem = () => {
     if (list.length === 0) return;
 
     if (list.length === 1) {
+      const normalizedText = normalizeText(list[0].text);
+      addToHistory({
+        text: normalizedText,
+        type: 'icebreaker',
+        categories: normalizeCategories(list[0].categories),
+      });
       setCurrentItem(list[0]);
-        addToHistory({
-          text: normalizeText(list[0].text),
-          type: 'icebreaker',
-          categories: normalizeCategories(list[0].categories),
-        });
       return;
     }
 
@@ -43,12 +56,12 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
     } while (currentItem && selectedItem.text === currentItem.text);
 
     const normalized = normalizeText(selectedItem.text);
+    addToHistory({
+      text: normalized,
+      type: 'icebreaker',
+      categories: normalizeCategories(selectedItem.categories),
+    });
     setCurrentItem(selectedItem);
-      addToHistory({
-        text: normalized,
-        type: 'icebreaker',
-        categories: normalizeCategories(selectedItem.categories),
-      });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

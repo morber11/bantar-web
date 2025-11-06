@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { DebateItem } from '../types';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Spinner from '../../../shared/ui/Spinner';
@@ -21,16 +21,29 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
   const { addToHistory } = useHistory();
   const { showCategoryDetails } = useAppSettings();
 
+  const initialItemRef = useRef<DebateItem | null>(currentItem);
+  useEffect(() => {
+    if (initialItemRef.current) {
+      addToHistory({
+        text: normalizeText(initialItemRef.current.text),
+        type: 'debate',
+        categories: normalizeCategories(initialItemRef.current.categories),
+      });
+      initialItemRef.current = null;
+    }
+  }, [addToHistory]);
+
   const pickRandomItem = () => {
     if (list.length === 0) return;
 
     if (list.length === 1) {
-      setCurrentItem(list[0]);
+      const normalizedText = normalizeText(list[0].text);
       addToHistory({
-        text: normalizeText(list[0].text),
+        text: normalizedText,
         type: 'debate',
         categories: normalizeCategories(list[0].categories),
       });
+      setCurrentItem(list[0]);
       return;
     }
 
@@ -43,12 +56,12 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
     } while (currentItem && selectedItem.text === currentItem.text);
 
     const normalized = normalizeText(selectedItem.text);
-    setCurrentItem(selectedItem);
     addToHistory({
       text: normalized,
       type: 'debate',
       categories: normalizeCategories(selectedItem.categories),
     });
+    setCurrentItem(selectedItem);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
