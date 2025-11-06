@@ -64,15 +64,14 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
             <p className="text-center text-lg">No items available</p>
           ) : currentItem ? (
             <div className="flex flex-col items-center w-full">
-              <h2 className="text-center text-xl font-semibold max-w-3xl">{currentItem.text}</h2>
+              <h2 className="text-center text-xl font-semibold max-w-3xl">{normalizeText(currentItem.text)}</h2>
               {showCategoryDetails && (
                 <p className="text-center text-sm text-gray-400 mt-2 max-w-3xl break-words">
                   <span className="font-medium">Categories:</span>{' '}
-                  <span className="text-gray-400">{normalizeCategories(currentItem.categories).join(', ')}</span>
+                  <span className="text-gray-400">"{normalizeCategories(currentItem.categories).join(', ')}"</span>
                 </p>
               )}
             </div>
-            <h2 className="text-center text-xl font-semibold">{normalizeText(currentItem.text)}</h2>
           ) : (
             <div className="flex items-center justify-center">
               <Spinner />
