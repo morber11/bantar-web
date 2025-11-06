@@ -4,6 +4,7 @@ import Sidebar from '../../navigation/components/Sidebar';
 import IcebreakersSidebarContent from '../sidebarContent/IcebreakerSidebarContent';
 import useFetchByCategories from '../hooks/useFetchByCategories';
 import { questionCategoryKeys } from '../types';
+import Spinner from '../../../shared/ui/Spinner';
 
 export default function IcebreakersPage() {
   const defaultCategories = questionCategoryKeys.filter((key) => key !== 'NSFW');
@@ -37,7 +38,7 @@ export default function IcebreakersPage() {
           <div>
             {loading ? (
               <div className="flex items-center justify-center min-h-[200px]">
-                <p className="text-center text-lg">Loading icebreakers...</p>
+                <Spinner />
               </div>
             ) : error ? (
               <div className="flex items-center justify-center min-h-[200px]">
