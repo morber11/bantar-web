@@ -68,7 +68,7 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
               {showCategoryDetails && (
                 <p className="text-center text-sm text-gray-400 mt-2 max-w-3xl break-words">
                   <span className="font-medium">Categories:</span>{' '}
-                  <span className="text-gray-400">"{normalizeCategories(currentItem.categories).join(', ')}"</span>
+                  <span className="text-gray-400">{normalizeCategories(currentItem.categories).join(', ')}</span>
                 </p>
               )}
             </div>
