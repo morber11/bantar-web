@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import StyledButton from '../../../shared/ui/StyledButton';
+import Icon from '../../../shared/ui/Icon';
 
 interface SidebarProps {
   children?: ReactElement;
@@ -142,9 +143,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
               className="no-select inline-flex items-center justify-center !p-0 w-10 h-10 rounded-lg"
               aria-label="Close sidebar"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <Icon name="close" className="w-8 h-8" aria-hidden />
             </StyledButton>
           </div>
 
