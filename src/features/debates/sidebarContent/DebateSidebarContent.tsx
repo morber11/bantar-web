@@ -1,4 +1,5 @@
 import { DebateCategory, debateCategoryKeys } from '../types';
+import Icon from '../../../shared/ui/Icon';
 
 const categories = debateCategoryKeys.map(key => ({ id: key, label: DebateCategory[key], enabled: true }));
 
@@ -63,9 +64,7 @@ const DebateSidebarContent = ({ selectedCategories, onCategoriesChange }: Debate
                 }`}
               >
                 {selectedCategories.includes(id) && (
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
+                  <Icon name="check" className="w-3 h-3 text-white" />
                 )}
               </div>
             </button>
