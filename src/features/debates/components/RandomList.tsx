@@ -5,6 +5,7 @@ import Spinner from '../../../shared/ui/Spinner';
 import { useHistory } from '../../history/hooks/useHistory';
 import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
 import { normalizeCategories } from '../../../shared/utils/normalizeCategory';
+import { normalizeText } from '../../../shared/utils/normalizeText';
 
 interface RandomListProps {
   list: DebateItem[];
@@ -40,9 +41,10 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
       selectedItem = list[randomIndex];
     } while (currentItem && selectedItem.text === currentItem.text);
 
+    const normalized = normalizeText(selectedItem.text);
     setCurrentItem(selectedItem);
     addToHistory({
-      text: selectedItem.text,
+      text: normalized,
       type: 'debate',
     });
   };
@@ -70,6 +72,7 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
                 </p>
               )}
             </div>
+            <h2 className="text-center text-xl font-semibold">{normalizeText(currentItem.text)}</h2>
           ) : (
             <div className="flex items-center justify-center">
               <Spinner />
