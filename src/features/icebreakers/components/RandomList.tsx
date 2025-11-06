@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { ListItem } from '../types';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Spinner from '../../../shared/ui/Spinner';
+import { useHistory } from '../../history/hooks/useHistory';
 
 interface RandomListProps {
   list: ListItem[];
@@ -14,11 +15,17 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
     return list[randomIndex];
   });
 
+  const { addToHistory } = useHistory();
+
   const pickRandomItem = () => {
     if (list.length === 0) return;
 
     if (list.length === 1) {
       setCurrentItem(list[0]);
+      addToHistory({
+        text: list[0].text,
+        type: 'icebreaker',
+      });
       return;
     }
 
@@ -31,6 +38,10 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
     } while (currentItem && selectedItem.text === currentItem.text);
 
     setCurrentItem(selectedItem);
+    addToHistory({
+      text: selectedItem.text,
+      type: 'icebreaker',
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
