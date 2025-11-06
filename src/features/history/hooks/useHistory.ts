@@ -4,6 +4,7 @@ export interface HistoryItem {
   id: string;
   text: string;
   type: 'icebreaker' | 'debate'; // for now - can be extended later
+  categories?: string[];
   timestamp: number;
 }
 

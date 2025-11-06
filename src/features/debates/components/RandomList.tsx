@@ -27,8 +27,9 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
     if (list.length === 1) {
       setCurrentItem(list[0]);
       addToHistory({
-        text: list[0].text,
+        text: normalizeText(list[0].text),
         type: 'debate',
+        categories: normalizeCategories(list[0].categories),
       });
       return;
     }
@@ -46,6 +47,7 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
     addToHistory({
       text: normalized,
       type: 'debate',
+      categories: normalizeCategories(selectedItem.categories),
     });
   };
 
