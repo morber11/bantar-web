@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Icon from '../../../shared/ui/Icon';
+import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
 
 interface SidebarProps {
   children?: ReactElement;
@@ -22,6 +23,8 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
+
+  const { showCategoryDetails, setShowCategoryDetails } = useAppSettings();
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -162,6 +165,18 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 </li>
               ))}
             </ul>
+
+            <div className="mt-4 px-4">
+              <label className="flex items-center space-x-2 text-slate-200 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showCategoryDetails}
+                  onChange={(e) => setShowCategoryDetails(e.target.checked)}
+                  className="w-4 h-4"
+                />
+                <span>Show category details</span>
+              </label>
+            </div>
 
             {children && React.cloneElement(children, childProps)}
           </nav>

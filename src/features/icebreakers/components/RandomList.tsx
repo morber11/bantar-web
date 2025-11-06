@@ -3,6 +3,8 @@ import type { ListItem } from '../types';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Spinner from '../../../shared/ui/Spinner';
 import { useHistory } from '../../history/hooks/useHistory';
+import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
+import { normalizeCategories } from '../../../shared/utils/normalizeCategory';
 
 interface RandomListProps {
   list: ListItem[];
@@ -16,6 +18,7 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
   });
 
   const { addToHistory } = useHistory();
+  const { showCategoryDetails } = useAppSettings();
 
   const pickRandomItem = () => {
     if (list.length === 0) return;
@@ -58,7 +61,15 @@ const RandomList: React.FC<RandomListProps> = ({ list }) => {
           {list.length === 0 ? (
             <p className="text-center text-lg">No items available</p>
           ) : currentItem ? (
-            <h2 className="text-center text-xl font-semibold">{currentItem.text}</h2>
+            <div className="flex flex-col items-center w-full">
+              <h2 className="text-center text-xl font-semibold max-w-3xl">{currentItem.text}</h2>
+              {showCategoryDetails && (
+                <p className="text-center text-sm text-gray-400 mt-2 max-w-3xl break-words">
+                  <span className="font-medium">Categories:</span>{' '}
+                  <span className="text-gray-400">{normalizeCategories(currentItem.categories).join(', ')}</span>
+                </p>
+              )}
+            </div>
           ) : (
             <div className="flex items-center justify-center">
               <Spinner />
