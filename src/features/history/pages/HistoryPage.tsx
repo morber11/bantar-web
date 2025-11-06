@@ -4,6 +4,7 @@ import type { HistoryItem } from '../hooks/useHistory';
 import Sidebar from '../../navigation/components/Sidebar';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Toast from '../../../shared/ui/Toast';
+import { normalizeText } from '../../../shared/utils/normalizeText';
 
 const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string) => void; onShowToast: (message: string) => void }> = ({ item, onRemove, onShowToast }) => {
   const formatDate = (timestamp: number) => {
@@ -25,7 +26,7 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
     <div className="border border-gray-200 rounded-lg p-4 mb-4">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div className="flex-1 min-w-0">
-          <p className="text-lg font-medium mb-2 break-words">{item.text}</p>
+          <p className="text-lg font-medium mb-2 break-words">{normalizeText(item.text)}</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-sm text-gray-600">
             <span className="capitalize">{item.type}</span>
             <span>{formatDate(item.timestamp)}</span>
