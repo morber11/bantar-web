@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import StyledButton from './StyledButton';
 import Spinner from './Spinner';
 import { useHistory } from '../../features/history/hooks/useHistory';
@@ -16,60 +16,76 @@ type HistoryType = 'icebreaker' | 'debate' | 'ai';
 
 interface RandomListProps {
     list: SharedListItem[];
-    itemType?: HistoryType; // if provided, the component will add picks to history
+    itemType?: HistoryType;
     buttonLabel?: string;
     showCategoryDetails?: boolean;
 }
 
 const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }) => {
-    const [currentItem, setCurrentItem] = useState<SharedListItem | null>(() => {
-        if (list.length === 0) return null;
-        const randomIndex = Math.floor(Math.random() * list.length);
-        return list[randomIndex];
-    });
+    const [currentItem, setCurrentItem] = useState<SharedListItem | null>(null);
 
     const { addToHistory } = useHistory();
     const appSettings = useAppSettings();
-    const showDetails = typeof showCategoryDetails === 'boolean' ? showCategoryDetails : appSettings.showCategoryDetails;
+    const [isPicking, setIsPicking] = useState(false);
 
-    // Capture and add the initial item only once.
-    const initialItemRef = useRef<SharedListItem | null>(currentItem);
+    const showDetails = showCategoryDetails ?? appSettings.showCategoryDetails;
+
     useEffect(() => {
-        if (initialItemRef.current && itemType) {
-            addToHistory({
-                text: normalizeText(initialItemRef.current.text),
-                type: itemType,
-                categories: normalizeCategories(initialItemRef.current.categories),
-            });
-            initialItemRef.current = null;
-        }
-    }, [addToHistory, itemType]);
-
-    const pickRandomItem = () => {
-        if (list.length === 0) return;
-
-        if (list.length === 1) {
-            const normalizedText = normalizeText(list[0].text);
-            if (itemType) {
-                addToHistory({ text: normalizedText, type: itemType, categories: normalizeCategories(list[0].categories) });
+        if (list.length === 0) {
+            if (currentItem !== null) {
+                setCurrentItem(null);
             }
-            setCurrentItem(list[0]);
             return;
         }
 
-        let randomIndex: number;
-        let selectedItem: SharedListItem;
-
-        do {
-            randomIndex = Math.floor(Math.random() * list.length);
-            selectedItem = list[randomIndex];
-        } while (currentItem && selectedItem.text === currentItem.text);
-
-        const normalized = normalizeText(selectedItem.text);
-        if (itemType) {
-            addToHistory({ text: normalized, type: itemType, categories: normalizeCategories(selectedItem.categories) });
+        if (currentItem && list.some(item => item.text === currentItem.text)) {
+            return;
         }
-        setCurrentItem(selectedItem);
+
+        const item = list[Math.floor(Math.random() * list.length)];
+        setCurrentItem(item);
+        if (itemType) {
+            addToHistory({
+                text: normalizeText(item.text),
+                type: itemType,
+                categories: normalizeCategories(item.categories),
+            });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [list, itemType, addToHistory]);
+
+    const pickRandomItem = () => {
+        if (list.length === 0) {
+            return;
+        }
+
+        if (isPicking) {
+            return;
+        }
+
+        setIsPicking(true);
+
+        let nextItem: SharedListItem;
+
+        if (list.length === 1) {
+            nextItem = list[0];
+        } else {
+            let randomIndex: number;
+            do {
+                randomIndex = Math.floor(Math.random() * list.length);
+                nextItem = list[randomIndex];
+            } while (currentItem && nextItem.text === currentItem.text);
+        }
+
+        setCurrentItem(nextItem);
+        if (itemType) {
+            addToHistory({
+                text: normalizeText(nextItem.text),
+                type: itemType,
+                categories: normalizeCategories(nextItem.categories),
+            });
+        }
+        setIsPicking(false);
     };
 
     return (
@@ -95,7 +111,7 @@ const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = '
                     )}
                 </div>
 
-                <StyledButton onClick={pickRandomItem} disabled={list.length === 0} aria-label="Pick random item">
+                <StyledButton onClick={pickRandomItem} disabled={list.length === 0 || isPicking || !currentItem} aria-label="Pick random item">
                     {buttonLabel}
                 </StyledButton>
             </div>
