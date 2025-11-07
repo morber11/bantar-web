@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import RandomList from '../components/RandomList';
+import RandomList from '../../../shared/ui/RandomList';
 import Sidebar from '../../navigation/components/Sidebar';
 import IcebreakersSidebarContent from '../sidebarContent/IcebreakerSidebarContent';
 import useFetchByCategories from '../hooks/useFetchByCategories';
@@ -48,7 +48,7 @@ export default function IcebreakersPage() {
                 </div>
               </div>
             ) : (
-              <RandomList list={list} />
+              <RandomList list={list} itemType="icebreaker" buttonLabel="New Icebreaker" />
             )}
           </div>
         </div>

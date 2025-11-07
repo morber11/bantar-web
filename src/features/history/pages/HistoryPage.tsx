@@ -5,6 +5,7 @@ import Sidebar from '../../navigation/components/Sidebar';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Toast from '../../../shared/ui/Toast';
 import { normalizeText } from '../../../shared/utils/normalizeText';
+import formatItemType from '../../../shared/utils/formatItemType';
 
 const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string) => void; onShowToast: (message: string) => void }> = ({ item, onRemove, onShowToast }) => {
   const formatDate = (timestamp: number) => {
@@ -37,7 +38,7 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
             </div>
           )}
           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-sm text-gray-600">
-            <span className="capitalize">{item.type}</span>
+            <span>{formatItemType(item.type)}</span>
             <span>{formatDate(item.timestamp)}</span>
           </div>
         </div>

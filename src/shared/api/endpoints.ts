@@ -22,6 +22,9 @@ export const endpoints = {
     return `/api/debates/getByCategories?${params}`;
   },
 
+  // Slop controller endpoints
+  getAllSlop: `/api/slop/getAll`,
+
 } as const;
 
 export default endpoints;

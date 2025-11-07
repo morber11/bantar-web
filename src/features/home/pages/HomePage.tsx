@@ -24,6 +24,11 @@ export default function HomePage() {
                 <StyledButton className="w-full">Debates</StyledButton>
               </Link>
             </li>
+            <li className="w-full max-w-xs">
+              <Link to="/ai" className="block w-full">
+                <StyledButton className="w-full">AI Mode</StyledButton>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

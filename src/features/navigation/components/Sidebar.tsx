@@ -13,6 +13,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/icebreakers', label: 'Icebreakers' },
   { to: '/debates', label: 'Debates' },
+  { to: '/ai', label: 'AI Mode' },
   { to: '/history', label: 'History' },
 ];
 
@@ -113,9 +114,8 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
         ref={sidebarRef}
         aria-hidden={!isOpen}
         tabIndex={-1}
-        className={`sidebar fixed top-0 left-0 h-full w-64 bg-slate-800 text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`sidebar fixed top-0 left-0 h-full w-64 bg-slate-800 text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
         onKeyDown={(e) => {
           if (!isOpen) return;
           const focusable = sidebarRef.current?.querySelectorAll<HTMLElement>(
@@ -165,8 +165,8 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 </li>
               ))}
             </ul>
-
-            <div className="mt-4 px-4">
+            <div className="mt-4 border-t border-slate-700" />
+            <div className="mt-3 px-4">
               <label className="flex items-center space-x-2 text-slate-200 cursor-pointer">
                 <input
                   type="checkbox"
@@ -177,7 +177,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 <span>Show category details</span>
               </label>
             </div>
-
+            <div className="mt-4 border-t border-slate-700" />
             {children && React.cloneElement(children, childProps)}
           </nav>
 
