@@ -51,7 +51,7 @@ const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = '
                 categories: normalizeCategories(item.categories),
             });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [list, itemType, addToHistory]);
 
     const pickRandomItem = () => {
@@ -88,8 +88,20 @@ const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = '
         setIsPicking(false);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (
+            (event.key === ' ' || event.key === 'Spacebar' || event.key === 'Enter') &&
+            list.length > 0 &&
+            !isPicking &&
+            currentItem
+        ) {
+            event.preventDefault();
+            pickRandomItem();
+        }
+    };
+
     return (
-        <div onKeyDown={() => { }} tabIndex={0}>
+        <div onKeyDown={handleKeyDown} tabIndex={0}>
             <div className="flex flex-col items-center gap-8 p-8">
                 <div className="w-full md:w-4/5 flex items-center justify-center min-h-[200px]">
                     {list.length === 0 ? (
