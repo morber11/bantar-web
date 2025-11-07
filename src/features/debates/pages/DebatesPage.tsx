@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import RandomList from '../components/RandomList';
+import RandomList from '../../../shared/ui/RandomList';
 import Sidebar from '../../navigation/components/Sidebar';
 import DebateSidebarContent from '../sidebarContent/DebateSidebarContent';
 import useFetchByCategories from '../hooks/useFetchByCategories';
@@ -48,7 +48,7 @@ export default function DebatesPage() {
                 </div>
               </div>
             ) : (
-              <RandomList list={list} />
+              <RandomList list={list} itemType="debate" buttonLabel="New Debate" />
             )}
           </div>
         </div>

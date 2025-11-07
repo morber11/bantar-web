@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export interface HistoryItem {
   id: string;
   text: string;
-  type: 'icebreaker' | 'debate'; // for now - can be extended later
+  type: 'icebreaker' | 'debate' | 'ai'; // for now - can be extended later
   categories?: string[];
   timestamp: number;
 }
