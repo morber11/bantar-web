@@ -13,6 +13,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/icebreakers', label: 'Icebreakers' },
   { to: '/debates', label: 'Debates' },
+  { to: '/mindreader', label: 'Mind Reader' },
   { to: '/ai', label: 'AI Mode' },
   { to: '/history', label: 'History' },
 ];

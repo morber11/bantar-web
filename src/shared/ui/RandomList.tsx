@@ -12,7 +12,7 @@ export type SharedListItem = {
     categories?: string[];
 };
 
-type HistoryType = 'icebreaker' | 'debate' | 'ai';
+type HistoryType = 'icebreaker' | 'debate' | 'ai' | 'mindreader';
 
 interface RandomListProps {
     list: SharedListItem[];

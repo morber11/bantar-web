@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 
+type HistoryType = 'icebreaker' | 'debate' | 'ai' | 'mindreader';
+
 export interface HistoryItem {
   id: string;
   text: string;
-  type: 'icebreaker' | 'debate' | 'ai'; // for now - can be extended later
+  type: HistoryType;
   categories?: string[];
   timestamp: number;
 }

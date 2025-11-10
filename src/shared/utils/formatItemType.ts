@@ -3,8 +3,14 @@ export default function formatItemType(type: string): string {
         return '';
     }
 
-    if (type.toLowerCase() === 'ai') {
+    const lower = type.toLowerCase();
+
+    if (lower === 'ai') {
         return 'AI';
+    }
+
+    if (lower === 'mindreader') {
+        return 'Mind Reader';
     }
 
     return `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
