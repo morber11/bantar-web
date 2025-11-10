@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-
+import { HistoryType } from '../../../shared/types/history';
 export interface HistoryItem {
   id: string;
   text: string;
-  type: 'icebreaker' | 'debate' | 'ai'; // for now - can be extended later
+  type: HistoryType;
   categories?: string[];
   timestamp: number;
 }

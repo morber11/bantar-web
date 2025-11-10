@@ -22,6 +22,9 @@ export const endpoints = {
     return `/api/debates/getByCategories?${params}`;
   },
 
+  // MindReader controller endpoints
+  getAllMindReader: `/api/mindreader/getAll`,
+
   // Slop controller endpoints
   getAllSlop: `/api/slop/getAll`,
 
