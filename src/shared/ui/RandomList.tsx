@@ -5,6 +5,7 @@ import { useHistory } from '../../features/history/hooks/useHistory';
 import { normalizeText } from '../utils/normalizeText';
 import { normalizeCategories } from '../utils/normalizeCategory';
 import { useAppSettings } from '../context/appSettingsContextImpl';
+import type { HistoryType } from '../types/history';
 
 export type SharedListItem = {
     id?: number | string;
@@ -12,7 +13,6 @@ export type SharedListItem = {
     categories?: string[];
 };
 
-type HistoryType = 'icebreaker' | 'debate' | 'ai' | 'mindreader';
 
 interface RandomListProps {
     list: SharedListItem[];

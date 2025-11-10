@@ -28,7 +28,7 @@ export default function MindReaderPage() {
                                 </div>
                             </div>
                         ) : (
-                            <RandomList list={list} itemType="mindreader" buttonLabel="New Prompt" showCategoryDetails={false} />
+                            <RandomList list={list} itemType="mindreader" buttonLabel="New Question" showCategoryDetails={false} />
                         )}
                     </div>
                 </div>

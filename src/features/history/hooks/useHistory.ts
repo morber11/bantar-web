@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
-import { HistoryType } from '../../../shared/types/history';
-export interface HistoryItem {
-  id: string;
-  text: string;
-  type: HistoryType;
-  categories?: string[];
-  timestamp: number;
-}
+import type { HistoryItemShape } from '../../../shared/types/history';
+
+export type HistoryItem = HistoryItemShape;
 
 const HISTORY_KEY = 'bantar-history';
 const MAX_HISTORY_ITEMS = 50;
