@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-
-type HistoryType = 'icebreaker' | 'debate' | 'ai' | 'mindreader';
-
+import { HistoryType } from '../../../shared/types/history';
 export interface HistoryItem {
   id: string;
   text: string;
