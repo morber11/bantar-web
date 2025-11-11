@@ -5,7 +5,6 @@ export type DebateItem = {
 };
 
 export const DebateCategory = {
-  DEBATE: 'Debate',
   CASUAL: 'Casual',
   POLICY: 'Policy',
   ETHICS: 'Ethics',
