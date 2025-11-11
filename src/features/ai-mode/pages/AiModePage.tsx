@@ -16,7 +16,7 @@ export default function AiModePage() {
                     </div>
 
                     <div>
-                        {loading ? (
+                            {loading ? (
                             <div className="flex items-center justify-center min-h-[200px]">
                                 <Spinner />
                             </div>
@@ -28,7 +28,7 @@ export default function AiModePage() {
                                 </div>
                             </div>
                         ) : (
-                            <RandomList list={list} itemType="ai" buttonLabel="New Prompt" />
+                            <RandomList list={list} itemType="ai" buttonLabel="New Prompt" showCategoryDetails={false} />
                         )}
                     </div>
                 </div>

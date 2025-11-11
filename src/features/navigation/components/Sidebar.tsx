@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, type ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Icon from '../../../shared/ui/Icon';
 import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
@@ -27,6 +27,13 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
   const touchEndX = useRef<number>(0);
 
   const { showCategoryDetails, setShowCategoryDetails } = useAppSettings();
+
+  const location = useLocation();
+  const hideCategoryDetails =
+    location.pathname === '/' ||
+    location.pathname.startsWith('/ai') ||
+    location.pathname.startsWith('/history') ||
+    location.pathname.startsWith('/mindreader');
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -166,19 +173,23 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 </li>
               ))}
             </ul>
-            <div className="mt-4 border-t border-slate-700" />
-            <div className="mt-3 px-4">
-              <label className="flex items-center space-x-2 text-slate-200 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showCategoryDetails}
-                  onChange={(e) => setShowCategoryDetails(e.target.checked)}
-                  className="w-4 h-4"
-                />
-                <span>Show category details</span>
-              </label>
-            </div>
-            <div className="mt-4 border-t border-slate-700" />
+            {!hideCategoryDetails && (
+              <>
+                <div className="mt-4 border-t border-slate-700" />
+                <div className="mt-3 px-4">
+                  <label className="flex items-center space-x-2 text-slate-200 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={showCategoryDetails}
+                      onChange={(e) => setShowCategoryDetails(e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    <span>Show category details</span>
+                  </label>
+                </div>
+                <div className="mt-4 border-t border-slate-700" />
+              </>
+            )}
             {children && React.cloneElement(children, childProps)}
           </nav>
 
