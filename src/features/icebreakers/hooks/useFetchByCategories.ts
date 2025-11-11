@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchQuestionsByCategories } from '../api';
+import { fetchIcebreakersByCategories } from '../api';
 import type { ListItem } from '../types';
 
 const useFetchByCategories = (categories: string[] = []) => {
@@ -12,10 +12,10 @@ const useFetchByCategories = (categories: string[] = []) => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchQuestionsByCategories(categories);
+        const data = await fetchIcebreakersByCategories(categories);
         setList(data);
       } catch (err) {
-        setError('Error fetching questions by categories');
+        setError('Error fetching icebreakers by categories');
         console.error(err);
       } finally {
         setLoading(false);
