@@ -5,6 +5,7 @@ import Sidebar from '../../navigation/components/Sidebar';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Toast from '../../../shared/ui/Toast';
 import { normalizeText } from '../../../shared/utils/normalizeText';
+import { formatCategoryLabel } from '../../../shared/utils/formatCategoryLabel';
 import formatItemType from '../../../shared/utils/formatItemType';
 
 const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string) => void; onShowToast: (message: string) => void }> = ({ item, onRemove, onShowToast }) => {
@@ -28,11 +29,15 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div className="flex-1 min-w-0">
           <p className="text-lg font-medium mb-2 break-words">{normalizeText(item.text)}</p>
-          {item.categories && item.categories.length > 0 && (
+          {/*
+            hide categories for AI and Mind Reader items until categories are available
+            TODO: re-enable category display for 'ai' and 'mindreader' items when available
+          */}
+          {item.type !== 'ai' && item.type !== 'mindreader' && item.categories && item.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
               {item.categories.map((c) => (
                 <span key={c} className="inline-block bg-slate-100 text-slate-800 text-xs px-2 py-0.5 rounded-full border border-slate-200">
-                  {c}
+                  {formatCategoryLabel(c)}
                 </span>
               ))}
             </div>

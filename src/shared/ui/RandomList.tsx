@@ -4,6 +4,7 @@ import Spinner from './Spinner';
 import { useHistory } from '../../features/history/hooks/useHistory';
 import { normalizeText } from '../utils/normalizeText';
 import { normalizeCategories } from '../utils/normalizeCategory';
+import { formatCategoryLabel } from '../utils/formatCategoryLabel';
 import { useAppSettings } from '../context/appSettingsContextImpl';
 import type { HistoryType } from '../types/history';
 
@@ -112,7 +113,7 @@ const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = '
                             {showDetails && (
                                 <p className="text-center text-sm text-gray-400 mt-2 max-w-3xl break-words">
                                     <span className="font-medium">Categories:</span>{' '}
-                                    <span className="text-gray-400">{normalizeCategories(currentItem.categories).join(', ')}</span>
+                                    <span className="text-gray-400">{normalizeCategories(currentItem.categories).map(formatCategoryLabel).join(', ')}</span>
                                 </p>
                             )}
                         </div>
