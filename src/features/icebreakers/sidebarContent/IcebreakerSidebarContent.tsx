@@ -1,7 +1,7 @@
-import { QuestionCategory, questionCategoryKeys } from '../types';
+import { IcebreakerCategory, icebreakerCategoryKeys } from '../types';
 import Icon from '../../../shared/ui/Icon';
 
-const categories = questionCategoryKeys.map(key => ({ id: key, label: QuestionCategory[key], enabled: true }));
+const categories = icebreakerCategoryKeys.map(key => ({ id: key, label: IcebreakerCategory[key], enabled: true }));
 
 interface IcebreakersSidebarContentProps {
   selectedCategories: string[];

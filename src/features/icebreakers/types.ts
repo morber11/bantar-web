@@ -4,8 +4,7 @@ export type ListItem = {
   categories: string[];
 };
 
-export const QuestionCategory = {
-  ICEBREAKER: 'Icebreakers',
+export const IcebreakerCategory = {
   CASUAL: 'Casual',
   ROMANTIC: 'Romantic',
   NSFW: 'NSFW/18+',
@@ -25,6 +24,6 @@ export const QuestionCategory = {
   CHILDHOOD: 'Childhood',
 } as const;
 
-export type QuestionCategory = keyof typeof QuestionCategory;
+export type IcebreakerCategory = keyof typeof IcebreakerCategory;
 
-export const questionCategoryKeys = Object.keys(QuestionCategory) as QuestionCategory[];
+export const icebreakerCategoryKeys = Object.keys(IcebreakerCategory) as IcebreakerCategory[];

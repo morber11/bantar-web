@@ -1,12 +1,12 @@
-import { QuestionCategory } from '../../types';
+import { IcebreakerCategory } from '../../features/icebreakers/types';
 import { DebateCategory } from '../../features/debates/types';
 
 const buildMap = () => {
   const map: Record<string, string> = {};
 
-  // QuestionCategory
-  Object.keys(QuestionCategory).forEach((k) => {
-    const val = (QuestionCategory as Record<string, string>)[k];
+  // IcebreakerCategory
+  Object.keys(IcebreakerCategory).forEach((k) => {
+    const val = (IcebreakerCategory as Record<string, string>)[k];
     map[k.toLowerCase()] = val;
     map[val.toLowerCase()] = val;
   });

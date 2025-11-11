@@ -1,21 +1,21 @@
 import apiClient, { toExtendedError } from '../../../shared/api/client';
 import endpoints from '../../../shared/api/endpoints';
 
-export async function fetchAllQuestions() {
+export async function fetchAllIcebreakers() {
   try {
-    const res = await apiClient.get(endpoints.getAllQuestions);
+    const res = await apiClient.get(endpoints.getAllIcebreakers);
     return res.data;
   } catch (e) {
-    throw toExtendedError(e, 'Failed to fetch all questions');
+    throw toExtendedError(e, 'Failed to fetch all icebreakers');
   }
 }
 
-export async function fetchQuestionsByCategories(categories: string[]) {
+export async function fetchIcebreakersByCategories(categories: string[]) {
   try {
-    const url = endpoints.getQuestionsByCategories(categories);
+    const url = endpoints.getIcebreakersByCategories(categories);
     const res = await apiClient.get(url);
     return res.data;
   } catch (e) {
-    throw toExtendedError(e, 'Failed to fetch questions by categories');
+    throw toExtendedError(e, 'Failed to fetch icebreakers by categories');
   }
 }
