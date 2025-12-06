@@ -1,12 +1,4 @@
-/**
- * Icon component for rendering common SVG icons.
- * 
- * Available icons:
- * - 'close': X icon for closing/dismissing UI elements
- * - 'check': Checkmark icon for indicating selection or completion
- * - 'menu': Hamburger menu icon for navigation
- */
-export type IconName = 'close' | 'check' | 'menu';
+export type IconName = 'close' | 'check' | 'menu' | 'info';
 
 interface IconProps {
   name: IconName;
@@ -26,6 +18,13 @@ const iconPaths: Record<IconName, React.ReactNode> = {
       <line x1="3" y1="6" x2="21" y2="6" strokeWidth={2} strokeLinecap="round" />
       <line x1="3" y1="12" x2="21" y2="12" strokeWidth={2} strokeLinecap="round" />
       <line x1="3" y1="18" x2="21" y2="18" strokeWidth={2} strokeLinecap="round" />
+    </>
+  ),
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" strokeWidth={2} />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 16v-4" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8h.01" />
     </>
   ),
 };
