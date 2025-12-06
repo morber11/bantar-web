@@ -12,12 +12,12 @@ interface SidebarProps {
 }
 
 const links = [
-  { to: '/', label: 'Home', tooltip: '' },
-  { to: '/icebreakers', label: 'Icebreakers', tooltip: 'quick prompts to start a conversation' },
-  { to: '/debates', label: 'Debates', tooltip: 'arguments for the soul' },
-  { to: '/mindreader', label: 'Mind Reader', tooltip: 'how well do your friends know you?' },
-  { to: '/ai', label: 'AI Mode', tooltip: 'use AI to generate icebreaker style questions' },
-  { to: '/history', label: 'History', tooltip: 'show past prompts' },
+  { to: '/', label: 'Home', tooltip: 'N/A' }, // no tooltip for home
+  { to: '/icebreakers', label: 'Icebreakers', tooltip: 'Quick prompts to start a conversation' },
+  { to: '/debates', label: 'Debates', tooltip: 'Arguments for the soul' },
+  { to: '/mindreader', label: 'Mind Reader', tooltip: 'How well do your friends know you?' },
+  { to: '/ai', label: 'AI Mode', tooltip: 'Use AI to generate icebreaker style questions' },
+  { to: '/history', label: 'History', tooltip: 'Show past prompts' },
 ];
 
 const tooltipEnabledPaths = new Set(['/icebreakers', '/debates', '/mindreader', '/ai', '/history']);
@@ -110,6 +110,8 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
     }
   }, [isOpen]);
 
+  const activeDialogLink = links.find((l) => l.to === openDialog) ?? null;
+
   return (
     <>
       <StyledButton
@@ -195,14 +197,12 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                       <span className="text-xl">{label}</span>
                     </Link>
                     {tooltipEnabledPaths.has(to) && (
-                      <>
-                        <InfoButton
-                          text={label}
-                          onClick={() => {
-                            setOpenDialog(to);
-                          }}
-                        />
-                      </>
+                      <InfoButton
+                        text={label}
+                        onClick={() => {
+                          setOpenDialog(to);
+                        }}
+                      />
                     )}
                   </div>
                 </li>
@@ -227,18 +227,13 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             )}
             {children && React.cloneElement(children, childProps)}
           </nav>
-          {openDialog && (
-            (() => {
-              const active = links.find((l) => l.to === openDialog);
-              return (
-                <InfoDialog
-                  open={true}
-                  title={active?.label ?? ''}
-                  text={active?.tooltip ?? ''}
-                  onClose={() => setOpenDialog(null)}
-                />
-              );
-            })()
+          {activeDialogLink && (
+            <InfoDialog
+              open={true}
+              title={activeDialogLink.label}
+              text={activeDialogLink.tooltip}
+              onClose={() => setOpenDialog(null)}
+            />
           )}
 
           <div className="absolute top-0 right-0 w-1 h-full bg-slate-600 shadow-lg" />
