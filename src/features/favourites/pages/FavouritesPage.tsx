@@ -88,7 +88,7 @@ export default function FavouritesPage() {
                     )}
                 </div>
             </main>
-            {toastMessage && <Toast message={toastMessage as string} onClose={hideToast} />}
+            {toastMessage && <Toast message={toastMessage} onClose={hideToast} />}
         </div>
     );
 }
