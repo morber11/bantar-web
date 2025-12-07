@@ -1,4 +1,4 @@
-export type IconName = 'close' | 'check' | 'menu' | 'info';
+export type IconName = 'close' | 'check' | 'menu' | 'info' | 'star-outline' | 'star-filled';
 
 interface IconProps {
   name: IconName;
@@ -26,6 +26,16 @@ const iconPaths: Record<IconName, React.ReactNode> = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 16v-4" />
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8h.01" />
     </>
+  ),
+  'star-outline': (
+    <g transform="scale(0.025)">
+      <path fill="none" stroke="currentColor" strokeWidth={40} d="M283.84 867.84 512 747.776l228.16 119.936a6.4 6.4 0 0 0 9.28-6.72l-43.52-254.08 184.512-179.904a6.4 6.4 0 0 0-3.52-10.88l-255.104-37.12L517.76 147.904a6.4 6.4 0 0 0-11.52 0L392.192 379.072l-255.104 37.12a6.4 6.4 0 0 0-3.52 10.88L318.08 606.976l-43.584 254.08a6.4 6.4 0 0 0 9.28 6.72z" />
+    </g>
+  ),
+  'star-filled': (
+    <g transform="scale(0.025)">
+      <path fill="currentColor" d="M283.84 867.84 512 747.776l228.16 119.936a6.4 6.4 0 0 0 9.28-6.72l-43.52-254.08 184.512-179.904a6.4 6.4 0 0 0-3.52-10.88l-255.104-37.12L517.76 147.904a6.4 6.4 0 0 0-11.52 0L392.192 379.072l-255.104 37.12a6.4 6.4 0 0 0-3.52 10.88L318.08 606.976l-43.584 254.08a6.4 6.4 0 0 0 9.28 6.72z" />
+    </g>
   ),
 };
 
