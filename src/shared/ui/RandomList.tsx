@@ -122,14 +122,12 @@ const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = '
                                 </p>
                             )}
                             <div className="flex justify-center items-center mt-4">
-                                {currentItem && (
-                                    <FavouritesButton
-                                        text={currentItem.text}
-                                        type={favTypeVal}
-                                        categories={currentItem.categories}
-                                        className="z-10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300"
-                                    />
-                                )}
+                                <FavouritesButton
+                                    text={currentItem.text}
+                                    type={favTypeVal}
+                                    categories={currentItem.categories}
+                                    className="z-10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300"
+                                />
                             </div>
                         </div>
                     ) : (
