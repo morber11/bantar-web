@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { HistoryItemShape } from '../../../shared/types/history';
+import { generateId } from '../../../shared/utils/generateId';
 
 export type HistoryItem = HistoryItemShape;
 
@@ -24,7 +25,7 @@ export const useHistory = () => {
   const addToHistory = (item: Omit<HistoryItem, 'id' | 'timestamp'>) => {
     const newItem: HistoryItem = {
       ...item,
-      id: `${item.type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: generateId(item.type),
       timestamp: Date.now(),
     };
 

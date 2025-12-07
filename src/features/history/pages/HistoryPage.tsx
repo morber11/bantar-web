@@ -5,10 +5,13 @@ import Sidebar from '../../navigation/components/Sidebar';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Toast from '../../../shared/ui/Toast';
 import { normalizeText } from '../../../shared/utils/normalizeText';
+import FavouritesButton from '../../../shared/ui/FavouritesButton';
+import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
 import { formatCategoryLabel } from '../../../shared/utils/formatCategoryLabel';
 import formatItemType from '../../../shared/utils/formatItemType';
 
 const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string) => void; onShowToast: (message: string) => void }> = ({ item, onRemove, onShowToast }) => {
+  const { showCategoryDetails } = useAppSettings();
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
@@ -33,7 +36,7 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
             hide categories for AI and Mind Reader items until categories are available
             TODO: re-enable category display for 'ai' and 'mindreader' items when available
           */}
-          {item.type !== 'ai' && item.type !== 'mindreader' && item.categories && item.categories.length > 0 && (
+          {showCategoryDetails && item.type !== 'ai' && item.type !== 'mindreader' && item.categories && item.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
               {item.categories.map((c) => (
                 <span key={c} className="inline-block bg-slate-100 text-slate-800 text-xs px-2 py-0.5 rounded-full border border-slate-200">
@@ -47,7 +50,13 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
             <span>{formatDate(item.timestamp)}</span>
           </div>
         </div>
-        <div className="flex gap-2 flex-shrink-0">
+        <div className="flex gap-2 flex-shrink-0 items-center">
+          <FavouritesButton
+            text={item.text}
+            type={item.type}
+            categories={item.categories}
+            className="text-slate-400 hover:text-yellow-400"
+          />
           <StyledButton
             onClick={handleShare}
             className="px-3 py-1 text-sm"

@@ -18,9 +18,10 @@ const links = [
   { to: '/mindreader', label: 'Mind Reader', tooltip: 'How well do your friends know you?' },
   { to: '/ai', label: 'AI Mode', tooltip: 'Use AI to generate icebreaker style questions' },
   { to: '/history', label: 'History', tooltip: 'Show past prompts' },
+  { to: '/favourites', label: 'Favourites', tooltip: 'Save and view favourites' },
 ];
 
-const tooltipEnabledPaths = new Set(['/icebreakers', '/debates', '/mindreader', '/ai', '/history']);
+const tooltipEnabledPaths = new Set(['/icebreakers', '/debates', '/mindreader', '/ai', '/history', '/favourites']);
 
 // we need all the useEffects here for the swipe/focus management
 const Sidebar = ({ children, childProps }: SidebarProps) => {
@@ -37,7 +38,6 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
   const hideCategoryDetails =
     location.pathname === '/' ||
     location.pathname.startsWith('/ai') ||
-    location.pathname.startsWith('/history') ||
     location.pathname.startsWith('/mindreader');
 
   useEffect(() => {
