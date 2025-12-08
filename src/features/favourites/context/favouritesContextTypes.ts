@@ -11,4 +11,4 @@ export interface FavouritesContextValue {
     clearFavourites: () => void;
 }
 
-export const FavouritesContext = createContext<FavouritesContextValue | null>(null);
+export const FavouritesContext = createContext<FavouritesContextValue | undefined>(undefined);
