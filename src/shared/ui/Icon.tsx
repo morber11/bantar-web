@@ -1,9 +1,12 @@
+import type React from 'react';
+
 export type IconName = 'close' | 'check' | 'menu' | 'info' | 'star-outline' | 'star-filled';
 
 interface IconProps {
   name: IconName;
   className?: string;
   'aria-hidden'?: boolean;
+  onTransitionEnd?: React.TransitionEventHandler<SVGElement>;
 }
 
 const iconPaths: Record<IconName, React.ReactNode> = {
@@ -39,10 +42,11 @@ const iconPaths: Record<IconName, React.ReactNode> = {
   ),
 };
 
-const Icon = ({ name, className = 'w-6 h-6', 'aria-hidden': ariaHidden }: IconProps) => {
+const Icon = ({ name, className = 'w-6 h-6', 'aria-hidden': ariaHidden, onTransitionEnd }: IconProps) => {
   return (
     <svg
       className={className}
+      onTransitionEnd={onTransitionEnd}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

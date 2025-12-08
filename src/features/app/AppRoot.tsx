@@ -7,11 +7,13 @@ import FavouritesPage from '../favourites/pages/FavouritesPage';
 import AiModePage from '../ai-mode/pages/AiModePage';
 import MindReaderPage from '../mindreader/pages/MindReaderPage';
 import { AppSettingsProvider } from '../../shared/context/AppSettingsContext';
+import { FavouritesProvider } from '../favourites/context/FavouritesContext';
 
 export default function AppRoot() {
   return (
     <AppSettingsProvider>
-      <BrowserRouter>
+      <FavouritesProvider>
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
@@ -23,7 +25,8 @@ export default function AppRoot() {
           <Route path="/favourites" element={<FavouritesPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
+      </FavouritesProvider>
     </AppSettingsProvider>
   );
 }

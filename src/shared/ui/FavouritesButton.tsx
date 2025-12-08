@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Icon from './Icon';
-import useFavourites from '../../features/favourites/hooks/useFavourites';
+import { useFavourites } from '../../features/favourites/hooks/useFavourites';
 import { normalizeText } from '../utils/normalizeText';
 import { normalizeCategories } from '../utils/normalizeCategory';
 import type { HistoryType } from '../types/history';
@@ -33,7 +33,6 @@ const FavouritesButton: React.FC<FavouritesButtonProps> = ({
     const handleToggle = () => {
         toggleFavourite({ text: normalized, type, categories: normalizeCategories(categories) });
         setIsAnimating(true);
-        setTimeout(() => setIsAnimating(false), 360);
         onToggle?.(!favState);
     };
 
@@ -43,11 +42,12 @@ const FavouritesButton: React.FC<FavouritesButtonProps> = ({
             onClick={handleToggle}
             aria-label={favState ? ariaLabelRemove : ariaLabelAdd}
             aria-pressed={favState}
-            className={className ?? 'z-10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300'}
+            className={`z-10 ${className ?? 'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300'}`}
         >
             <Icon
                 name={favState ? 'star-filled' : 'star-outline'}
-                className={`${favState ? 'text-yellow-400' : 'text-slate-400'} ${isAnimating ? 'transform scale-150 -rotate-6' : ''} transition-transform duration-300 ease-out origin-center w-6 h-6`}
+                className={`${favState ? 'text-yellow-400' : 'text-slate-400'} ${isAnimating ? 'transform scale-150 -rotate-6' : ''} transition-transform duration-300 ease-out origin-center w-6 h-6 pointer-events-none`}
+                onTransitionEnd={() => setIsAnimating(false)}
                 aria-hidden
             />
         </button>
