@@ -25,6 +25,11 @@ export default function HomePage() {
               </Link>
             </li>
             <li className="w-full max-w-xs">
+              <Link to="/toplists" className="block w-full">
+                <StyledButton className="w-full">Top Lists</StyledButton>
+              </Link>
+            </li>
+            <li className="w-full max-w-xs">
               <Link to="/mindreader" className="block w-full">
                 <StyledButton className="w-full">Mind Reader</StyledButton>
               </Link>
