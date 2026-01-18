@@ -13,5 +13,9 @@ export default function formatItemType(type: string): string {
         return 'Mind Reader';
     }
 
+    if (lower === 'toplist') {
+        return 'Top List';
+    }
+
     return `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
 }
