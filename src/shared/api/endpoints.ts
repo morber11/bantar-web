@@ -28,6 +28,9 @@ export const endpoints = {
   // Slop controller endpoints
   getAllSlop: `/api/slop/getAll`,
 
+  // TopLists controller endpoints
+  getAllToplists: `/api/toplists/getAll`,
+
 } as const;
 
 export default endpoints;
