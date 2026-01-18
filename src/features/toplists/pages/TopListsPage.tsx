@@ -28,7 +28,7 @@ export default function TopListsPage() {
                                 </div>
                             </div>
                         ) : (
-                            <RandomList list={list} itemType="toplist" buttonLabel="New Top List" showCategoryDetails={true} />
+                            <RandomList list={list} itemType="toplist" buttonLabel="New Top List" showCategoryDetails={false} />
                         )}
                     </div>
                 </div>
