@@ -233,9 +233,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             {children && React.cloneElement(children, childProps)}
             <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
             <div className="mt-3 px-4">
-              <React.Suspense fallback={null}>
-                <ThemeToggle />
-              </React.Suspense>
+              <ThemeToggle />
             </div>
             <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
           </nav>
