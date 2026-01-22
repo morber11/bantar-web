@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* disable transitions during initial page load */
+html.no-transitions * {
+  transition: none !important;
+}
+
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+button,
+a,
+[role="button"],
+.no-theme-transition {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
+}
+
 @import "tailwindcss";
 
 @layer base {
@@ -77,4 +93,27 @@ body,
 .sidebar nav {
   -webkit-touch-callout: none;
   touch-action: pan-y;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+.dark body {
+  background-color: #0b1220;
+  color: #f8fafc;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+.dark ::-webkit-scrollbar-track {
+  background-color: #0b1220;
+}
+.dark .sidebar::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+.dark .sidebar::-webkit-scrollbar-track {
+  background-color: transparent;
 }

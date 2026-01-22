@@ -52,7 +52,7 @@ export default function FavouritesPage() {
                         <StyledButton onClick={() => handleShare(item.text)} className="px-3 py-1 text-sm" aria-label={`Share ${item.type}`}>
                             Share
                         </StyledButton>
-                        <StyledButton onClick={() => removeFromFavourites(item.id)} classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300" aria-label={`Remove ${item.type} from favourites`}>
+                        <StyledButton onClick={() => removeFromFavourites(item.id)} classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 dark:bg-red-900 dark:hover:bg-red-800 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300" aria-label={`Remove ${item.type} from favourites`}>
                             Remove
                         </StyledButton>
                     </div>
@@ -80,7 +80,7 @@ export default function FavouritesPage() {
                             {favourites.map((item) => renderFavouriteItem(item))}
 
                             <div className="mt-8 text-center">
-                                <StyledButton onClick={() => clearFavourites()} classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300">
+                                <StyledButton onClick={() => clearFavourites()} classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 dark:bg-red-900 dark:hover:bg-red-800 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300">
                                     Clear All
                                 </StyledButton>
                             </div>

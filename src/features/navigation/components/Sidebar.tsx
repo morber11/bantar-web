@@ -6,6 +6,9 @@ import InfoButton from '../../../shared/ui/InfoButton';
 import InfoDialog from '../../../shared/ui/InfoDialog';
 import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
 
+import { ThemeToggle } from '../../../shared/ui';
+
+
 interface SidebarProps {
   children?: ReactElement;
   childProps?: Record<string, unknown>;
@@ -123,9 +126,9 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
         aria-expanded={isOpen}
       >
         <div className="space-y-2">
-          <span className="block h-0.5 w-5 bg-white"></span>
-          <span className="block h-0.5 w-5 bg-white"></span>
-          <span className="block h-0.5 w-5 bg-white"></span>
+          <span className="block h-0.5 w-5 bg-slate-900 dark:bg-white"></span>
+          <span className="block h-0.5 w-5 bg-slate-900 dark:bg-white"></span>
+          <span className="block h-0.5 w-5 bg-slate-900 dark:bg-white"></span>
         </div>
       </StyledButton>
 
@@ -143,7 +146,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
         ref={sidebarRef}
         aria-hidden={!isOpen}
         tabIndex={-1}
-        className={`sidebar fixed top-0 left-0 h-full w-64 bg-slate-800 text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`sidebar fixed top-0 left-0 h-full w-64 bg-white text-slate-900 dark:bg-slate-800 dark:text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         onKeyDown={(e) => {
           if (!isOpen) return;
@@ -169,7 +172,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
         }}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 border-b border-slate-700">
+          <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
             <h2 className="text-2xl font-semibold">Menu</h2>
             <StyledButton
               onClick={() => {
@@ -183,14 +186,14 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             </StyledButton>
           </div>
 
-          <nav className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-300">
+          <nav className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 dark:scrollbar-thumb-slate-600 scrollbar-track-slate-300 dark:scrollbar-track-slate-700">
             <ul className="space-y-2">
               {links.map(({ to, label }) => (
                 <li key={to}>
-                  <div className="relative flex items-center justify-between px-4 py-3 rounded-lg transition-colors hover:bg-slate-700">
+                  <div className="relative flex items-center justify-between px-4 py-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-700">
                     <Link
                       to={to}
-                      className="flex-1 text-slate-200 hover:text-white"
+                      className="flex-1 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white"
                       onClick={() => {
                         setIsOpen(false);
                         setOpenDialog(null);
@@ -212,9 +215,9 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             </ul>
             {!hideCategoryDetails && (
               <>
-                <div className="mt-4 border-t border-slate-700" />
+                <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
                 <div className="mt-3 px-4">
-                  <label className="flex items-center space-x-2 text-slate-200 cursor-pointer">
+                  <label className="flex items-center space-x-2 text-slate-700 dark:text-slate-200 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={showCategoryDetails}
@@ -224,10 +227,15 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                     <span>Show category details</span>
                   </label>
                 </div>
-                <div className="mt-4 border-t border-slate-700" />
+                <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
               </>
             )}
             {children && React.cloneElement(children, childProps)}
+            <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
+            <div className="mt-3 px-4">
+              <ThemeToggle />
+            </div>
+            <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
           </nav>
           {activeDialogLink && (
             <InfoDialog
@@ -238,7 +246,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             />
           )}
 
-          <div className="absolute top-0 right-0 w-1 h-full bg-slate-600 shadow-lg" />
+          <div className="absolute top-0 right-0 w-1 h-full bg-slate-200 dark:bg-slate-600 shadow-lg" />
         </div>
       </aside>
     </>

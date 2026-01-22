@@ -17,7 +17,7 @@ const InfoButton = ({ text, onClick }: InfoButtonProps) => {
       type="button"
       aria-label={`About ${text}`}
       onClick={handleClick}
-      className="ml-2 inline-flex items-center justify-center text-slate-300 hover:text-white"
+      className="ml-2 inline-flex items-center justify-center text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
     >
       <Icon name="info" className="w-5 h-5" aria-hidden />
     </button>

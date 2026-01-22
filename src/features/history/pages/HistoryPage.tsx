@@ -66,7 +66,7 @@ const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string)
           </StyledButton>
           <StyledButton
             onClick={() => onRemove(item.id)}
-            classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300"
+            classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 dark:bg-red-900 dark:hover:bg-red-800 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300"
             aria-label={`Remove ${item.type} from history`}
           >
             Remove
@@ -116,7 +116,7 @@ export default function HistoryPage() {
                 />
               ))}
               <div className="mt-8 text-center">
-                <StyledButton onClick={clearHistory} classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300">
+                <StyledButton onClick={clearHistory} classOverride="px-3 py-1 text-sm bg-red-800 hover:bg-red-700 dark:bg-red-900 dark:hover:bg-red-800 text-white font-bold rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300">
                   Clear All
                 </StyledButton>
               </div>

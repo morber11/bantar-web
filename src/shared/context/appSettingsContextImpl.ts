@@ -1,11 +1,15 @@
 import { createContext, useContext } from 'react';
+import type { ThemeMode, ResolvedTheme } from '../hooks/useTheme';
 
 interface AppSettings {
     showCategoryDetails: boolean;
+    themeMode: ThemeMode;
+    resolvedTheme: ResolvedTheme;
 }
 
 interface AppSettingsContextType extends AppSettings {
     setShowCategoryDetails: (value: boolean) => void;
+    setThemeMode: (mode: ThemeMode) => void;
 }
 
 export const AppSettingsContext = createContext<AppSettingsContextType | undefined>(undefined);
