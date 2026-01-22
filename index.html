@@ -1,13 +1,66 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bantar</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bantar</title>
+  <!-- we need these directly inline to stop FOUC -->
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    html.dark {
+      color-scheme: dark;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #0f172a;
+    }
+
+    html.dark body {
+      background-color: #0b1220;
+      color: #f8fafc;
+    }
+  </style>
+  <script>
+    <!--should mitigate against FOUC-->
+    (function () {
+      try {
+        // disable transitions during initial load
+        document.documentElement.classList.add('no-transitions');
+
+        var s = localStorage.getItem('bantar-settings');
+        var shouldBeDark = false;
+
+        if (s) {
+          var parsed = JSON.parse(s);
+          var mode = parsed.themeMode || 'system';
+
+          if (mode === 'dark') {
+            shouldBeDark = true;
+          } else if (mode === 'system') {
+            shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          }
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          shouldBeDark = true;
+        }
+
+        if (shouldBeDark) {
+          document.documentElement.classList.add('dark');
+        }
+
+        document.documentElement.classList.remove('no-transitions');
+      } catch (e) { }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
