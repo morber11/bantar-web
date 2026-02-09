@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from '../hooks/useHistory';
 import type { HistoryItem } from '../hooks/useHistory';
 import Sidebar from '../../navigation/components/Sidebar';
@@ -10,7 +10,13 @@ import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
 import { formatCategoryLabel } from '../../../shared/utils/formatCategoryLabel';
 import formatItemType from '../../../shared/utils/formatItemType';
 
-const HistoryItemComponent: React.FC<{ item: HistoryItem; onRemove: (id: string) => void; onShowToast: (message: string) => void }> = ({ item, onRemove, onShowToast }) => {
+interface HistoryItemProps {
+  item: HistoryItem;
+  onRemove: (id: string) => void;
+  onShowToast: (message: string) => void;
+}
+
+const HistoryItemComponent = ({ item, onRemove, onShowToast }: HistoryItemProps) => {
   const { showCategoryDetails } = useAppSettings();
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Icon from './Icon';
 import { useFavourites } from '../../features/favourites/hooks/useFavourites';
 import { normalizeText } from '../utils/normalizeText';
@@ -15,7 +15,7 @@ interface FavouritesButtonProps {
     onToggle?: (isFavourited: boolean) => void;
 }
 
-const FavouritesButton: React.FC<FavouritesButtonProps> = ({
+const FavouritesButton = ({
     text,
     type = 'icebreaker',
     categories,
@@ -23,7 +23,7 @@ const FavouritesButton: React.FC<FavouritesButtonProps> = ({
     ariaLabelRemove = 'Remove favourite',
     ariaLabelAdd = 'Add to favourites',
     onToggle,
-}) => {
+}: FavouritesButtonProps) => {
     const { toggleFavourite, isFavourited } = useFavourites();
     const [isAnimating, setIsAnimating] = useState(false);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSettings } from '../context/appSettingsContextImpl';
 
 interface ToastProps {
@@ -7,7 +7,7 @@ interface ToastProps {
   onClose: () => void;
 }
 
-const Toast: React.FC<ToastProps> = ({ message, duration = 3000, onClose }) => {
+const Toast = ({ message, duration = 3000, onClose }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const onCloseRef = useRef(onClose);
   const { resolvedTheme } = useAppSettings();
