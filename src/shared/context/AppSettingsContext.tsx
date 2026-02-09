@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { AppSettingsContext } from './appSettingsContextImpl';
 import { useTheme } from '../hooks/useTheme';
@@ -15,7 +15,11 @@ const isValidThemeMode = (value: unknown): value is ThemeMode => {
   return value === 'light' || value === 'dark' || value === 'system';
 };
 
-export const AppSettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+interface AppSettingsProviderProps {
+  children: ReactNode;
+}
+
+export const AppSettingsProvider = ({ children }: AppSettingsProviderProps) => {
   const [storedSettings, setStoredSettings] = useState<StoredSettings>(() => {
     if (typeof window === 'undefined') {
       return { showCategoryDetails: false, themeMode: 'system' };

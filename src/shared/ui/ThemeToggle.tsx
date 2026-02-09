@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAppSettings } from '../context/appSettingsContextImpl';
 import type { ThemeMode } from '../hooks/useTheme';
 
@@ -14,7 +13,7 @@ const getButtonClassName = (currentMode: ThemeMode, buttonMode: ThemeMode, resol
   return 'bg-transparent text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/30';
 };
 
-const ThemeToggle: React.FC = () => {
+const ThemeToggle = () => {
   const { themeMode, resolvedTheme, setThemeMode } = useAppSettings();
 
   const buttons: Array<{ mode: ThemeMode; label: string }> = [

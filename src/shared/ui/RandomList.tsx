@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import type { KeyboardEvent } from 'react';
 import StyledButton from './StyledButton';
 import Spinner from './Spinner';
 import { useHistory } from '../../features/history/hooks/useHistory';
@@ -23,7 +24,7 @@ interface RandomListProps {
     showCategoryDetails?: boolean;
 }
 
-const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }) => {
+const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }: RandomListProps) => {
     const [currentItem, setCurrentItem] = useState<SharedListItem | null>(null);
 
     const { addToHistory } = useHistory();
@@ -90,7 +91,7 @@ const RandomList: React.FC<RandomListProps> = ({ list, itemType, buttonLabel = '
         setIsPicking(false);
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
         if (
             (event.key === ' ' || event.key === 'Spacebar' || event.key === 'Enter') &&
             list.length > 0 &&
