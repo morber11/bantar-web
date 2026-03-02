@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-}
+        VITE_APP_ENV: ${VITE_APP_ENV:-}
+    image: bantar-frontend:latest
+    ports:
+      - "5173:80"   # host port 5173 matches Vite dev default, but container serves on 80
+    restart: unless-stopped

@@ -1,8 +1,20 @@
-#!/usr/bin/env sh
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "Running: npm run build"
-npm run build
+COMPOSE_FILE="docker-compose.yml"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Starting preview: npm run preview --host"
-npm run preview --host
+cd "$PROJECT_DIR"
+
+echo "[build-and-deploy] Using compose file: $COMPOSE_FILE"
+
+echo "[build-and-deploy] Stopping existing compose project (if any)..."
+
+docker compose down --remove-orphans || true
+
+echo "[build-and-deploy] Building and starting containers..."
+docker compose up -d --build "$@"
+
+echo "[build-and-deploy] Done. To follow logs run: docker compose logs -f"
+
+exit 0
