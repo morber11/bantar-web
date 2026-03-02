@@ -43,5 +43,5 @@ jobs:
             exit 0
           }
           git add package.json
-          git commit -m "ci: bump version via PR workflow" || Write-Host "nothing to commit"
+          git commit -m "ci: bump version" || Write-Host "nothing to commit"
           git push
