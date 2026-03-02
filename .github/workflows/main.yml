@@ -1,0 +1,36 @@
+name: Bump version on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  bump:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version (PowerShell)
+        shell: pwsh
+        run: |
+          # run bump script, default minor bump
+          .\bump-version.ps1
+
+      - name: Commit version bump
+        shell: pwsh
+        run: |
+          if (git diff --quiet) {
+            Write-Host "No version changes detected."
+            exit 0
+          }
+          git add package.json
+          git commit -m "ci: bump version via PR workflow" || Write-Host "nothing to commit"
+          git push
