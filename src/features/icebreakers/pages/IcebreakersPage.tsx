@@ -18,12 +18,7 @@ export default function IcebreakersPage() {
 
   return (
     <>
-      <Sidebar
-        childProps={{
-          selectedCategories,
-          onCategoriesChange: handleCategoriesChange,
-        }}
-      >
+      <Sidebar>
         <IcebreakersSidebarContent
           selectedCategories={selectedCategories}
           onCategoriesChange={handleCategoriesChange}

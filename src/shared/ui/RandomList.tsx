@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { KeyboardEvent } from 'react';
 import StyledButton from './StyledButton';
 import Spinner from './Spinner';
@@ -26,6 +26,8 @@ interface RandomListProps {
 
 const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }: RandomListProps) => {
     const [currentItem, setCurrentItem] = useState<SharedListItem | null>(null);
+    const currentItemRef = useRef<SharedListItem | null>(null);
+    currentItemRef.current = currentItem;
 
     const { addToHistory } = useHistory();
     const appSettings = useAppSettings();
@@ -35,13 +37,13 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
 
     useEffect(() => {
         if (list.length === 0) {
-            if (currentItem !== null) {
+            if (currentItemRef.current !== null) {
                 setCurrentItem(null);
             }
             return;
         }
 
-        if (currentItem && list.some(item => item.text === currentItem.text)) {
+        if (currentItemRef.current && list.some(item => item.text === currentItemRef.current!.text)) {
             return;
         }
 
@@ -54,7 +56,6 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
                 categories: normalizeCategories(item.categories),
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [list, itemType, addToHistory]);
 
     const pickRandomItem = () => {
@@ -103,8 +104,6 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
         }
     };
 
-    const favTypeVal = itemType ?? 'icebreaker';
-
     return (
         <div onKeyDown={handleKeyDown} tabIndex={0}>
             <div className="flex flex-col items-center gap-8 p-8">
@@ -123,12 +122,14 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
                                 </p>
                             )}
                             <div className="flex justify-center items-center mt-4">
-                                <FavouritesButton
-                                    text={currentItem.text}
-                                    type={favTypeVal}
-                                    categories={currentItem.categories}
-                                    className="z-10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300"
-                                />
+                                {itemType && (
+                                    <FavouritesButton
+                                        text={currentItem.text}
+                                        type={itemType}
+                                        categories={currentItem.categories}
+                                        className="z-10 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-300"
+                                    />
+                                )}
                             </div>
                         </div>
                     ) : (

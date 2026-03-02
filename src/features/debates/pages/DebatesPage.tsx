@@ -18,12 +18,7 @@ export default function DebatesPage() {
 
   return (
     <>
-      <Sidebar
-        childProps={{
-          selectedCategories,
-          onCategoriesChange: handleCategoriesChange,
-        }}
-      >
+      <Sidebar>
         <DebateSidebarContent
           selectedCategories={selectedCategories}
           onCategoriesChange={handleCategoriesChange}

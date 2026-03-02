@@ -1,34 +1,21 @@
-import React, { useState, useEffect, useRef, type ReactElement } from 'react';
+import { useState, useEffect, useRef, type ReactElement } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import StyledButton from '../../../shared/ui/StyledButton';
 import Icon from '../../../shared/ui/Icon';
 import InfoButton from '../../../shared/ui/InfoButton';
 import InfoDialog from '../../../shared/ui/InfoDialog';
 import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
+import { navLinks } from '../routes';
 
 import { ThemeToggle } from '../../../shared/ui';
 
 
 interface SidebarProps {
   children?: ReactElement;
-  childProps?: Record<string, unknown>;
 }
 
-const links = [
-  { to: '/', label: 'Home', tooltip: 'N/A' }, // no tooltip for home
-  { to: '/icebreakers', label: 'Icebreakers', tooltip: 'Quick prompts to start a conversation' },
-  { to: '/debates', label: 'Debates', tooltip: 'Arguments for the soul' },
-  { to: '/toplists', label: 'Top Lists', tooltip: 'Top 10 best features' },
-  { to: '/mindreader', label: 'Mind Reader', tooltip: 'How well do your friends know you?' },
-  { to: '/ai', label: 'AI Mode', tooltip: 'Use AI to generate icebreaker style questions' },
-  { to: '/history', label: 'History', tooltip: 'Show past prompts' },
-  { to: '/favourites', label: 'Favourites', tooltip: 'Save and view favourites' },
-];
-
-const tooltipEnabledPaths = new Set(['/icebreakers', '/debates', '/toplists', '/mindreader', '/ai', '/history', '/favourites']);
-
 // we need all the useEffects here for the swipe/focus management
-const Sidebar = ({ children, childProps }: SidebarProps) => {
+const Sidebar = ({ children }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState<string | null>(null);
   const sidebarRef = useRef<HTMLElement>(null);
@@ -115,7 +102,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
     }
   }, [isOpen]);
 
-  const activeDialogLink = links.find((l) => l.to === openDialog) ?? null;
+  const activeDialogLink = navLinks.find((l) => l.to === openDialog) ?? null;
 
   return (
     <>
@@ -188,7 +175,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
 
           <nav className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 dark:scrollbar-thumb-slate-600 scrollbar-track-slate-300 dark:scrollbar-track-slate-700">
             <ul className="space-y-2">
-              {links.map(({ to, label }) => (
+              {navLinks.map(({ to, label, tooltip }) => (
                 <li key={to}>
                   <div className="relative flex items-center justify-between px-4 py-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-700">
                     <Link
@@ -201,7 +188,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                     >
                       <span className="text-xl">{label}</span>
                     </Link>
-                    {tooltipEnabledPaths.has(to) && (
+                    {tooltip !== null && (
                       <InfoButton
                         text={label}
                         onClick={() => {
@@ -230,7 +217,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
                 <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
               </>
             )}
-            {children && React.cloneElement(children, childProps)}
+            {children}
             <div className="mt-4 border-t border-slate-200 dark:border-slate-700" />
             <div className="mt-3 px-4">
               <ThemeToggle />
@@ -241,7 +228,7 @@ const Sidebar = ({ children, childProps }: SidebarProps) => {
             <InfoDialog
               open={true}
               title={activeDialogLink.label}
-              text={activeDialogLink.tooltip}
+              text={activeDialogLink.tooltip ?? ''}
               onClose={() => setOpenDialog(null)}
             />
           )}
