@@ -1,8 +1,8 @@
 name: Bump version on PR
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
 
 jobs:
   bump:
@@ -12,6 +12,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      - name: Ensure on main branch
+        run: |
+          git fetch origin main:main
+          git switch main
 
       - name: Set up Git config
         run: |
@@ -23,6 +29,7 @@ jobs:
         run: |
           # run bump script, default minor bump
           .\bump-version.ps1
+
 
       - name: Commit version bump
         shell: pwsh
