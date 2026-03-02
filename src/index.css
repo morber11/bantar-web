@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* disable transitions during initial page load */
 html.no-transitions * {
@@ -17,8 +17,6 @@ a,
 .no-theme-transition {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
 }
-
-@import "tailwindcss";
 
 @layer base {
   button {
