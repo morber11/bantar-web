@@ -1,11 +1,12 @@
 name: Bump version on PR
 
 on:
-  push:
-    branches: [main]
+  pull_request:
+    types: [closed]
 
 jobs:
   bump:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: windows-latest
     steps:
       - name: Checkout repo
