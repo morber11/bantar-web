@@ -15,6 +15,10 @@ RUN npm run build
 
 # production image
 FROM nginx:alpine
+
+# use a custom config that falls back to index.html for SPA routes
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # expose port that nginx will listen on
