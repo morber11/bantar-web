@@ -16,6 +16,7 @@ API: [morber11/bantar-api](https://github.com/morber11/bantar-api)
 Run the following script:
 
 `./build-and-deploy.sh`
+
 ## Environment (.env)
 Copy `.env.example` to `.env` and set values before building:
 
