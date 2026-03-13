@@ -2,7 +2,7 @@ import { useState } from 'react';
 import RandomList from '../../../shared/ui/RandomList';
 import Sidebar from '../../navigation/components/Sidebar';
 import IcebreakersSidebarContent from '../sidebarContent/IcebreakerSidebarContent';
-import useFetchByCategories from '../hooks/useFetchByCategories';
+import useFetchIcebreakers from '../hooks/useFetchIcebreakers';
 import { icebreakerCategoryKeys } from '../types';
 import Spinner from '../../../shared/ui/Spinner';
 
@@ -10,7 +10,7 @@ export default function IcebreakersPage() {
   const defaultCategories = icebreakerCategoryKeys.filter((key) => key !== 'NSFW');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(defaultCategories);
 
-  const { list, loading, error } = useFetchByCategories(selectedCategories);
+  const { list, loading, error } = useFetchIcebreakers(selectedCategories);
 
   const handleCategoriesChange = (categories: string[]) => {
     setSelectedCategories(categories);

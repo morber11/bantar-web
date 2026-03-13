@@ -2,7 +2,7 @@ import { useState } from 'react';
 import RandomList from '../../../shared/ui/RandomList';
 import Sidebar from '../../navigation/components/Sidebar';
 import DebateSidebarContent from '../sidebarContent/DebateSidebarContent';
-import useFetchByCategories from '../hooks/useFetchByCategories';
+import useFetchDebates from '../hooks/useFetchDebates';
 import { debateCategoryKeys } from '../types';
 import Spinner from '../../../shared/ui/Spinner';
 
@@ -10,7 +10,7 @@ export default function DebatesPage() {
   const defaultCategories = [...debateCategoryKeys];
   const [selectedCategories, setSelectedCategories] = useState<string[]>(defaultCategories);
 
-  const { list, loading, error } = useFetchByCategories(selectedCategories);
+  const { list, loading, error } = useFetchDebates(selectedCategories);
 
   const handleCategoriesChange = (categories: string[]) => {
     setSelectedCategories(categories);

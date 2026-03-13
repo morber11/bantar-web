@@ -1,10 +1,10 @@
 import RandomList from '../../../shared/ui/RandomList';
 import Sidebar from '../../navigation/components/Sidebar';
 import Spinner from '../../../shared/ui/Spinner';
-import useFetchToplists from '../hooks/useFetchToplists';
+import useFetchTopLists from '../hooks/useFetchTopLists';
 
 export default function TopListsPage() {
-    const { list, loading, error } = useFetchToplists();
+    const { list, loading, error } = useFetchTopLists();
 
     return (
         <>

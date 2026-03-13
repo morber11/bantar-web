@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { fetchIcebreakersByCategories } from '../api';
-import type { ListItem } from '../types';
+import { fetchDebatesByCategories } from '../api';
+import type { DebateItem } from '../types';
 
-const useFetchByCategories = (categories: string[] = []) => {
-  const [list, setList] = useState<ListItem[]>([]);
+const useFetchDebates = (categories: string[] = []) => {
+  const [list, setList] = useState<DebateItem[]>([]);
   const [loading, setLoading] = useState<boolean>(categories && categories.length > 0);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,10 +12,10 @@ const useFetchByCategories = (categories: string[] = []) => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchIcebreakersByCategories(categories);
+        const data = await fetchDebatesByCategories(categories);
         setList(data);
       } catch (err) {
-        setError('Error fetching icebreakers by categories');
+        setError('Error fetching debates by categories');
         console.error(err);
       } finally {
         setLoading(false);
@@ -32,4 +32,4 @@ const useFetchByCategories = (categories: string[] = []) => {
   return { list, loading, error };
 };
 
-export default useFetchByCategories;
+export default useFetchDebates;

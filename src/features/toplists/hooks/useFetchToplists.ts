@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchToplists } from '../api';
 import type { ListItem } from '../types';
 
-const useFetchToplists = () => {
+const useFetchTopLists = () => {
     const [list, setList] = useState<ListItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -28,4 +28,4 @@ const useFetchToplists = () => {
     return { list, loading, error };
 };
 
-export default useFetchToplists;
+export default useFetchTopLists;
