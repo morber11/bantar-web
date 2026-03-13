@@ -22,4 +22,13 @@ export function toExtendedError(error: unknown, fallback: string): ExtendedError
     return err;
 }
 
+export function isAPIAlive(): Promise<boolean> {
+    return apiClient.get('/api/health')
+        .then(response => response.status === 200)
+        .catch(error => {
+            console.error('API health check failed:', error);
+            return false;
+        });
+}
+
 export default apiClient;
