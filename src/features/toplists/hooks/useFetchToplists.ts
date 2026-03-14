@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchToplists } from '../api';
+import { useOfflineFallback } from '../../../shared/offline/useOfflineFallback';
 import type { ListItem } from '../types';
 
 const useFetchTopLists = () => {
@@ -8,11 +9,7 @@ const useFetchTopLists = () => {
         queryFn: fetchToplists
     });
 
-    return {
-        list: query.data ?? [],
-        loading: query.isLoading,
-        error: query.error?.message ?? null
-    };
+    return useOfflineFallback('toplists', query);
 };
 
 export default useFetchTopLists;

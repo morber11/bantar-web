@@ -24,7 +24,7 @@ export default function MindReaderPage() {
                             <div className="flex items-center justify-center min-h-[200px]">
                                 <div>
                                     <p className="text-center">Error loading mind reader prompts</p>
-                                    <p className="text-center">{error}</p>
+                                    <p className="text-center">Please try again later</p>
                                 </div>
                             </div>
                         ) : (

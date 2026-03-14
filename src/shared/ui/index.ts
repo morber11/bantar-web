@@ -6,3 +6,4 @@ export { default as ThemeToggle } from './ThemeToggle';
 export { default as Icon } from './Icon';
 export { default as InfoButton } from './InfoButton';
 export { default as InfoDialog } from './InfoDialog';
+export { default as OfflineIndicator } from './OfflineIndicator';
