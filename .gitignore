@@ -60,6 +60,3 @@ Thumbs.db
 
 # Optional: if using Docker
 .docker/
-
-# npm package-lock
-package-lock.json
