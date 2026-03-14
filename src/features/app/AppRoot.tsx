@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import IcebreakersPage from '../icebreakers/pages/IcebreakersPage';
 import DebatesPage from '../debates/pages/DebatesPage';
 import TopListsPage from '../toplists/pages/TopListsPage';
@@ -14,28 +15,31 @@ import { ErrorBoundary } from './ErrorBoundary';
 import NotFoundPage from './NotFoundPage';
 
 export default function AppRoot() {
-  return (
-    <ErrorBoundary>
-      <AppSettingsProvider>
-        <FavouritesProvider>
-          <HistoryProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/icebreakers" element={<IcebreakersPage />} />
-                <Route path="/debates" element={<DebatesPage />} />
-                <Route path="/toplists" element={<TopListsPage />} />
-                <Route path="/mindreader" element={<MindReaderPage />} />
-                <Route path="/ai" element={<AiModePage />} />
-                <Route path="/history" element={<HistoryPage />} />
-                <Route path="/favourites" element={<FavouritesPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </BrowserRouter>
-          </HistoryProvider>
-        </FavouritesProvider>
-      </AppSettingsProvider>
-    </ErrorBoundary>
-  );
+    const queryClient = new QueryClient();
+    return (
+        <ErrorBoundary>
+            <QueryClientProvider client={queryClient}>
+                <AppSettingsProvider>
+                    <FavouritesProvider>
+                        <HistoryProvider>
+                            <BrowserRouter>
+                                <Routes>
+                                    <Route path="/" element={<HomePage />} />
+                                    <Route path="/home" element={<HomePage />} />
+                                    <Route path="/icebreakers" element={<IcebreakersPage />} />
+                                    <Route path="/debates" element={<DebatesPage />} />
+                                    <Route path="/toplists" element={<TopListsPage />} />
+                                    <Route path="/mindreader" element={<MindReaderPage />} />
+                                    <Route path="/ai" element={<AiModePage />} />
+                                    <Route path="/history" element={<HistoryPage />} />
+                                    <Route path="/favourites" element={<FavouritesPage />} />
+                                    <Route path="*" element={<NotFoundPage />} />
+                                </Routes>
+                            </BrowserRouter>
+                        </HistoryProvider>
+                    </FavouritesProvider>
+                </AppSettingsProvider>
+            </QueryClientProvider>
+        </ErrorBoundary>
+    );
 }

@@ -1,31 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchToplists } from '../api';
 import type { ListItem } from '../types';
 
 const useFetchTopLists = () => {
-    const [list, setList] = useState<ListItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const query = useQuery<ListItem[], Error>({
+        queryKey: ['toplists'],
+        queryFn: fetchToplists
+    });
 
-    useEffect(() => {
-        const load = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const data = await fetchToplists();
-                setList(data);
-            } catch (err) {
-                console.error('Failed to load top lists', err);
-                setError('Unable to load top lists');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        load();
-    }, []);
-
-    return { list, loading, error };
+    return {
+        list: query.data ?? [],
+        loading: query.isLoading,
+        error: query.error?.message ?? null
+    };
 };
 
 export default useFetchTopLists;

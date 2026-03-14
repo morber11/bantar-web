@@ -1,35 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchIcebreakersByCategories } from '../api';
 import type { ListItem } from '../types';
 
 const useFetchIcebreakers = (categories: string[] = []) => {
-  const [list, setList] = useState<ListItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(categories && categories.length > 0);
-  const [error, setError] = useState<string | null>(null);
+    const enabled = categories && categories.length > 0;
+    const key = useMemo(() => ['icebreakers', { categories }], [categories]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchIcebreakersByCategories(categories);
-        setList(data);
-      } catch (err) {
-        setError('Error fetching icebreakers by categories');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    const query = useQuery<ListItem[], Error>({
+        queryKey: key,
+        queryFn: () => fetchIcebreakersByCategories(categories),
+        enabled,
+    });
+
+    return {
+        list: query.data ?? [],
+        loading: query.isLoading,
+        error: query.error?.message ?? null
     };
-
-    if (categories && categories.length > 0) {
-      fetchData();
-    } else {
-      setList([]);
-    }
-  }, [categories]);
-
-  return { list, loading, error };
 };
 
 export default useFetchIcebreakers;

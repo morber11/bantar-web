@@ -1,35 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchDebatesByCategories } from '../api';
 import type { DebateItem } from '../types';
 
 const useFetchDebates = (categories: string[] = []) => {
-  const [list, setList] = useState<DebateItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(categories && categories.length > 0);
-  const [error, setError] = useState<string | null>(null);
+    const enabled = categories && categories.length > 0;
+    const key = useMemo(() => ['debates', { categories }], [categories]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchDebatesByCategories(categories);
-        setList(data);
-      } catch (err) {
-        setError('Error fetching debates by categories');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const query = useQuery<DebateItem[], Error>({
+        queryKey: key,
+        queryFn: () => fetchDebatesByCategories(categories),
+        enabled,
+    });
 
-    if (categories && categories.length > 0) {
-      fetchData();
-    } else {
-      setList([]);
-    }
-  }, [categories]);
-
-  return { list, loading, error };
+    return { list: query.data ?? [], loading: query.isLoading, error: query.error?.message ?? null };
 };
 
 export default useFetchDebates;
