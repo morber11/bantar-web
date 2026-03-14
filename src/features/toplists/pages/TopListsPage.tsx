@@ -1,10 +1,10 @@
 import RandomList from '../../../shared/ui/RandomList';
 import Sidebar from '../../navigation/components/Sidebar';
 import Spinner from '../../../shared/ui/Spinner';
-import useFetchToplists from '../hooks/useFetchToplists';
+import useFetchTopLists from '../hooks/useFetchTopLists';
 
 export default function TopListsPage() {
-    const { list, loading, error } = useFetchToplists();
+    const { list, loading, error } = useFetchTopLists();
 
     return (
         <>
@@ -24,7 +24,7 @@ export default function TopListsPage() {
                             <div className="flex items-center justify-center min-h-[200px]">
                                 <div>
                                     <p className="text-center">Error loading top lists</p>
-                                    <p className="text-center">{error}</p>
+                                    <p className="text-center">Please try again later</p>
                                 </div>
                             </div>
                         ) : (

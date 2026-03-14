@@ -16,7 +16,7 @@ export default function AiModePage() {
                     </div>
 
                     <div>
-                            {loading ? (
+                        {loading ? (
                             <div className="flex items-center justify-center min-h-[200px]">
                                 <Spinner />
                             </div>
@@ -24,7 +24,7 @@ export default function AiModePage() {
                             <div className="flex items-center justify-center min-h-[200px]">
                                 <div>
                                     <p className="text-center">Error loading AI prompts</p>
-                                    <p className="text-center">{error}</p>
+                                    <p className="text-center">Please try again later</p>
                                 </div>
                             </div>
                         ) : (

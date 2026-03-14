@@ -1,35 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchAllSlop } from '../api';
-import type { AiItem } from '../types';
+import { useOfflineFallback } from '../../../shared/offline/useOfflineFallback';
+import type { SlopItem } from '../types';
 
 const useFetchAllSlop = () => {
-    const [list, setList] = useState<AiItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const query = useQuery<SlopItem[], Error>({
+        queryKey: ['slop', 'allSlop'],
+        queryFn: fetchAllSlop
+    });
 
-    useEffect(() => {
-        let mounted = true;
-        const fetchData = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const data = await fetchAllSlop();
-                if (mounted) setList(data);
-            } catch (err) {
-                setError('Error fetching AI items');
-                console.error(err);
-            } finally {
-                if (mounted) setLoading(false);
-            }
-        };
-
-        fetchData();
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
-    return { list, loading, error };
+    return useOfflineFallback('slop', query);
 };
 
 export default useFetchAllSlop;
