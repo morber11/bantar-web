@@ -1,5 +1,6 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import { endpoints } from './endpoints';
 
 export type ExtendedError = Error & { status?: number | null };
 
@@ -34,7 +35,7 @@ export function toExtendedError(error: unknown, fallback: string): ExtendedError
 }
 
 export function isAPIAlive(): Promise<boolean> {
-    return apiClient.get('/api/health')
+    return apiClient.get(endpoints.health)
         .then(response => response.status === 200)
         .catch(error => {
             console.error('API health check failed:', error);
