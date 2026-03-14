@@ -37,10 +37,10 @@ export function useOfflineFallback<T>(
             reportOffline(false);
             setCachedFallback(null);
         } else if (query.isError && cachedFallback === null) {
+            reportOffline(true);
             readCache<T>(cacheKey).then(cached => {
                 if (!cancelled && cached) {
                     setCachedFallback(cached);
-                    reportOffline(true);
                 }
             }).catch(() => undefined);
         }
