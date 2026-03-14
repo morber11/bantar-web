@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 
 export type ExtendedError = Error & { status?: number | null };
 
@@ -6,6 +7,16 @@ export const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL || '',
     headers: { 'Content-Type': 'application/json' },
     timeout: 10000,
+});
+
+const MAX_RETRY = 3;
+
+axiosRetry(apiClient, {
+    retries: MAX_RETRY,
+    retryDelay: axiosRetry.exponentialDelay,
+    retryCondition: (err: Error) => {
+        return axiosRetry.isNetworkError(err) || axiosRetry.isRetryableError(err);
+    },
 });
 
 export function toExtendedError(error: unknown, fallback: string): ExtendedError {
