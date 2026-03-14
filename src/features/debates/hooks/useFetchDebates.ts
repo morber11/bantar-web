@@ -13,7 +13,10 @@ const useFetchDebates = (categories: string[] = []) => {
         enabled: categories.length > 0,
     });
 
-    return useOfflineFallback('debates', query, { writeOnSuccess: false });
+    return useOfflineFallback('debates', query, {
+        writeOnSuccess: false,
+        filterFn: (item) => item.categories.some(c => categories.includes(c)),
+    });
 };
 
 export default useFetchDebates;

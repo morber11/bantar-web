@@ -3,8 +3,9 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import { readCache, writeCache, type CacheKey } from './offlineCache';
 import { useOffline } from '../context/offlineContextImpl';
 
-interface Options {
+interface Options<T> {
     writeOnSuccess?: boolean;
+    filterFn?: (item: T) => boolean;
 }
 
 function getRandomBetween(min: number, max: number): number {
@@ -14,7 +15,7 @@ function getRandomBetween(min: number, max: number): number {
 export function useOfflineFallback<T>(
     cacheKey: CacheKey,
     query: UseQueryResult<T[], Error>,
-    { writeOnSuccess = true }: Options = {}
+    { writeOnSuccess = true, filterFn }: Options<T> = {}
 ): { list: T[]; loading: boolean; error: string | null } {
     const { reportOffline } = useOffline();
     const [cachedFallback, setCachedFallback] = useState<T[] | null>(null);
@@ -48,8 +49,10 @@ export function useOfflineFallback<T>(
         return () => { cancelled = true; };
     }, [query.isSuccess, query.isError, query.data, cacheKey, writeOnSuccess, reportOffline, cachedFallback]);
 
+    const cachedList = cachedFallback !== null && filterFn ? cachedFallback.filter(filterFn) : (cachedFallback ?? []);
+
     return {
-        list: query.isError && cachedFallback !== null ? cachedFallback : (query.data ?? []),
+        list: query.isError && cachedFallback !== null ? cachedList : (query.data ?? []),
         loading: query.isLoading || minLoading,
         error: query.isError && cachedFallback === null && !minLoading ? (query.error?.message ?? null) : null,
     };

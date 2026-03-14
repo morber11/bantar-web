@@ -13,7 +13,10 @@ const useFetchIcebreakers = (categories: string[] = []) => {
         enabled: categories.length > 0,
     });
 
-    return useOfflineFallback('icebreakers', query, { writeOnSuccess: false });
+    return useOfflineFallback('icebreakers', query, {
+        writeOnSuccess: false,
+        filterFn: (item) => item.categories.some(c => categories.includes(c)),
+    });
 };
 
 export default useFetchIcebreakers;
