@@ -39,7 +39,7 @@ export default function EventsPage() {
                                 </div>
                             </div>
                         ) : (
-                            <RandomList list={list} itemType="event" buttonLabel="New Event Question" />
+                            <RandomList list={list} itemType="event" buttonLabel="New Event Question" showCategoryDetails={false} />
                         )}
                     </div>
                 </div>
