@@ -201,46 +201,34 @@ const Sidebar = ({ children }: SidebarProps) => {
 
                     <nav className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 dark:scrollbar-thumb-slate-600 scrollbar-track-slate-300 dark:scrollbar-track-slate-700">
                         <ul className="space-y-2">
-                            {navLinks.map(({ to, label, tooltip }) => (
-                                <li key={to}>
-                                    <div className="relative flex items-center justify-between px-4 py-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-700">
-                                        <Link
-                                            to={to}
-                                            className="flex-1 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white"
-                                            onClick={() => {
-                                                setIsOpen(false);
-                                                setOpenDialog(null);
-                                            }}
-                                        >
-                                            <span className="text-xl">{label}</span>
-                                        </Link>
-                                        {tooltip !== null && (
-                                            <InfoButton
-                                                text={label}
+                            {navLinks.map(({ to, label, tooltip }) => {
+                                if (to === '/events' && !showEvents) return null;
+                                const displayLabel = to === '/events' ? eventsLabel : label;
+                                return (
+                                    <li key={to}>
+                                        <div className="relative flex items-center justify-between px-4 py-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-700">
+                                            <Link
+                                                to={to}
+                                                className="flex-1 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white"
                                                 onClick={() => {
-                                                    setOpenDialog(to);
+                                                    setIsOpen(false);
+                                                    setOpenDialog(null);
                                                 }}
-                                            />
-                                        )}
-                                    </div>
-                                </li>
-                            ))}
-                            {showEvents && (
-                                <li key="/events">
-                                    <div className="relative flex items-center justify-between px-4 py-3 rounded-lg transition-colors hover:bg-slate-100 dark:hover:bg-slate-700">
-                                        <Link
-                                            to="/events"
-                                            className="flex-1 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white"
-                                            onClick={() => {
-                                                setIsOpen(false);
-                                                setOpenDialog(null);
-                                            }}
-                                        >
-                                            <span className="text-xl">{eventsLabel}</span>
-                                        </Link>
-                                    </div>
-                                </li>
-                            )}
+                                            >
+                                                <span className="text-xl">{displayLabel}</span>
+                                            </Link>
+                                            {tooltip !== null && (
+                                                <InfoButton
+                                                    text={displayLabel}
+                                                    onClick={() => {
+                                                        setOpenDialog(to);
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    </li>
+                                );
+                            })}
                         </ul>
                         {!hideCategoryDetails && (
                             <>
