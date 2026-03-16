@@ -32,6 +32,9 @@ export const endpoints = {
 
   // TopLists controller endpoints
   getAllToplists: `/api/toplists/getAll`,
+  
+  // Events controller endpoints
+  getLatestEvents: `/api/events/getLatestEvents`,
 
 } as const;
 

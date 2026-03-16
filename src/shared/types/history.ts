@@ -1,4 +1,4 @@
-export type HistoryType = 'icebreaker' | 'debate' | 'ai' | 'mindreader' | 'toplist';
+export type HistoryType = 'icebreaker' | 'debate' | 'ai' | 'mindreader' | 'toplist' | 'event';
 
 export interface HistoryItemShape {
   id: string;

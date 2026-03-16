@@ -8,6 +8,7 @@ import HistoryPage from '../history/pages/HistoryPage';
 import FavouritesPage from '../favourites/pages/FavouritesPage';
 import AiModePage from '../ai-mode/pages/AiModePage';
 import MindReaderPage from '../mindreader/pages/MindReaderPage';
+import EventsPage from '../events/pages/EventsPage';
 import { AppSettingsProvider } from '../../shared/context/AppSettingsContext';
 import { FavouritesProvider } from '../favourites/context/FavouritesContext';
 import { HistoryProvider } from '../history/context/HistoryContext';
@@ -46,6 +47,7 @@ export default function AppRoot() {
                                         <Route path="/toplists" element={<TopListsPage />} />
                                         <Route path="/mindreader" element={<MindReaderPage />} />
                                         <Route path="/ai" element={<AiModePage />} />
+                                        <Route path="/events" element={<EventsPage />} />
                                         <Route path="/history" element={<HistoryPage />} />
                                         <Route path="/favourites" element={<FavouritesPage />} />
                                         <Route path="*" element={<NotFoundPage />} />
