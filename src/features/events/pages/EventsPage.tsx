@@ -7,7 +7,7 @@ import Spinner from '../../../shared/ui/Spinner';
 
 export default function EventsPage() {
     const navigate = useNavigate();
-    const { list, eventName, available, loading, error } = useFetchEvents();
+    const { list, eventName, available, loading, error } = useFetchEvents({ simulateMountLoading: true });
 
     // redirect if events aren't available but the user tries to navigate manually
     if (!loading && (!available || error)) {
