@@ -7,6 +7,7 @@
         "dev": "vite",
         "dev-host": "vite --host",
         "build": "tsc -b && vite build",
+        "build-only": "vite build",
         "lint": "eslint .",
         "preview": "vite preview",
         "tailwind:init": "tailwindcss init"
