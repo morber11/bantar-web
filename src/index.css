@@ -32,6 +32,21 @@ button:focus-visible {
   box-shadow: 0 0 0 3px rgba(148,163,184,0.4);
 }
 
+/* if events are available, show a small animation to draw attention */
+@keyframes event-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.07); }
+  50%  { transform: scale(1.07) rotate(-2deg); }
+  65%  { transform: scale(1.07) rotate(2deg); }
+  80%  { transform: scale(1.07) rotate(-1deg); }
+  90%  { transform: scale(1.04) rotate(0deg); }
+  100% { transform: scale(1); }
+}
+
+.event-pop {
+  animation: event-pop 0.55s ease forwards;
+}
+
 html {
   scrollbar-width: thin;
   scrollbar-color: #4b5563 #e2e8f0;
