@@ -20,8 +20,8 @@ Run the following script:
 ## Environment (.env)
 Copy `.env.example` to `.env` and set values before building:
 
-- `VITE_API_URL` — API base URL (leave empty to use dev proxy)
-- `VITE_APP_ENV` — set to `prod` for production proxy behavior
+- `VITE_API_URL` — API base URL used when running with `VITE_APP_ENV=prod`. This should be a full URL (e.g. `https://api.example.com`). If not set, the dev proxy (`http://localhost:8080`) will be used.
+- `VITE_APP_ENV` — set to `prod` for production proxy behavior (controls which proxy target is used by the dev server).
 
 ## Features
 
