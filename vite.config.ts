@@ -5,8 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 // Vite config
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  const prodProxy = { '/api': 'http://161.35.45.14:8080' };
   const devProxy = { '/api': 'http://localhost:8080' };
+  const prodProxyTarget = env.VITE_API_URL;
+  const prodProxy = prodProxyTarget ? { '/api': prodProxyTarget } : undefined;
 
   const port = Number(env.VITE_PORT) || 5173;
   const allowedHosts = env.VITE_ALLOWED_HOSTS
@@ -23,7 +24,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
     ],
     server: {
-      proxy: env.VITE_APP_ENV === 'prod' ? prodProxy : devProxy,
+      proxy: env.VITE_APP_ENV === 'prod' ? (prodProxy ?? devProxy) : devProxy,
       allowedHosts,
       hmr: false,
     },
