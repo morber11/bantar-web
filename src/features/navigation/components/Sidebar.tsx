@@ -148,9 +148,19 @@ const Sidebar = ({ children }: SidebarProps) => {
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black/50 z-40 transition-opacity"
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Close sidebar"
                     onClick={() => {
                         setIsOpen(false);
                         setOpenDialog(null);
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                            e.preventDefault();
+                            setIsOpen(false);
+                            setOpenDialog(null);
+                        }
                     }}
                 />
             )}

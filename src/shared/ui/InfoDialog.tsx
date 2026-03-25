@@ -36,9 +36,18 @@ const InfoDialog = ({ title, text, open, onClose }: InfoDialogProps) => {
         >
             <div
                 className="absolute inset-0 bg-black/50"
+                role="button"
+                tabIndex={0}
+                aria-label="Close dialog"
                 onClick={(e) => {
                     e.stopPropagation();
                     onClose();
+                }}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                        e.stopPropagation();
+                        onClose();
+                    }
                 }}
             />
             <div className="relative bg-white text-slate-900 rounded-lg shadow-lg w-[min(90%,28rem)] p-6 z-10 border border-slate-800 ring-1 ring-slate-800">
