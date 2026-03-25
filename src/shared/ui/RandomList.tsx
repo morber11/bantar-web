@@ -105,7 +105,7 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
     };
 
     return (
-        <div onKeyDown={handleKeyDown} tabIndex={0}>
+        <div role="button" aria-label="Pick a new random item" onKeyDown={handleKeyDown} tabIndex={0}>
             <div className="flex flex-col items-center gap-8 p-8">
                 <div className="w-full md:w-4/5 relative flex items-center justify-center min-h-[200px]">
                     {list.length === 0 ? (
