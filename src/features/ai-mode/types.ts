@@ -3,5 +3,3 @@ export type SlopItem = {
     text: string;
     categories?: string[];
 };
-
-export type AiItem = SlopItem;
