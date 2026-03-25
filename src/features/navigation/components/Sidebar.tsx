@@ -148,27 +148,26 @@ const Sidebar = ({ children }: SidebarProps) => {
                 </div>
             </StyledButton>
 
-            {isOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-40 transition-opacity"
-                    role="button"
-                    tabIndex={0}
-                    aria-label="Close sidebar"
-                    onClick={closeSidebar}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-                            e.preventDefault();
-                            closeSidebar();
-                        }
-                    }}
-                />
-            )}
+            <div
+                className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                role="button"
+                tabIndex={isOpen ? 0 : -1}
+                aria-label="Close sidebar"
+                aria-hidden={!isOpen}
+                onClick={closeSidebar}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                        e.preventDefault();
+                        closeSidebar();
+                    }
+                }}
+            />
 
             <aside
                 ref={sidebarRef}
                 aria-hidden={!isOpen}
                 tabIndex={-1}
-                className={`sidebar fixed top-0 left-0 h-full w-64 bg-white text-slate-900 dark:bg-slate-800 dark:text-white z-50 transform transition-transform duration-300 ease-in-out shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                className={`sidebar fixed top-0 left-0 h-full w-64 bg-white text-slate-900 dark:bg-slate-800 dark:text-white z-50 shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
                 onKeyDown={(e) => {
                     if (!isOpen) return;

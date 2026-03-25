@@ -32,6 +32,12 @@ button:focus-visible {
   box-shadow: 0 0 0 3px rgba(148,163,184,0.4);
 }
 
+.sidebar {
+  transition-property: translate, transform, background-color, color, border-color;
+  transition-duration: 0.05s;
+  transition-timing-function: ease-in-out;
+}
+
 /* if events are available, show a small animation to draw attention */
 @keyframes event-pop {
   0%   { transform: scale(1); }
