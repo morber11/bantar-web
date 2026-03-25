@@ -37,7 +37,7 @@ const Toast = ({ message, duration = 3000, onClose }: ToastProps) => {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: fadeInKeyframes }} />
+      <style>{fadeInKeyframes}</style>
       <div className={`fixed bottom-4 right-4 ${bgColor} text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-in slide-in-from-bottom-2 animate-[fadeIn_0.3s_ease-in-out] transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         {message}
       </div>
