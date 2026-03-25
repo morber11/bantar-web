@@ -87,24 +87,27 @@ const Sidebar = ({ children }: SidebarProps) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    useEffect(() => {
-        if (isOpen) {
-            previouslyFocused.current = document.activeElement as HTMLElement | null;
-            setTimeout(() => {
-                const focusable = sidebarRef.current?.querySelectorAll<HTMLElement>(
-                    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-                );
-                if (focusable && focusable.length > 0) {
-                    focusable[0].focus();
-                } else {
-                    sidebarRef.current?.focus();
-                }
-            }, 0);
-        } else {
-            previouslyFocused.current?.focus?.();
-            previouslyFocused.current = null;
-        }
-    }, [isOpen]);
+    const openSidebar = () => {
+        previouslyFocused.current = document.activeElement as HTMLElement | null;
+        setIsOpen(true);
+        setTimeout(() => {
+            const focusable = sidebarRef.current?.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+            );
+            if (focusable && focusable.length > 0) {
+                focusable[0].focus();
+            } else {
+                sidebarRef.current?.focus();
+            }
+        }, 0);
+    };
+
+    const closeSidebar = () => {
+        setIsOpen(false);
+        setOpenDialog(null);
+        previouslyFocused.current?.focus?.();
+        previouslyFocused.current = null;
+    };
 
     const activeDialogLink = navLinks.find((l) => l.to === openDialog) ?? null;
 
@@ -132,7 +135,7 @@ const Sidebar = ({ children }: SidebarProps) => {
     return (
         <>
             <StyledButton
-                onClick={() => setIsOpen(true)}
+                onClick={openSidebar}
                 className="hidden md:flex fixed top-4 left-4 z-30 items-center justify-center w-10 h-10 rounded-lg"
                 classOverride="bg-slate-900 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-lg"
                 aria-label="Open sidebar"
@@ -151,15 +154,11 @@ const Sidebar = ({ children }: SidebarProps) => {
                     role="button"
                     tabIndex={0}
                     aria-label="Close sidebar"
-                    onClick={() => {
-                        setIsOpen(false);
-                        setOpenDialog(null);
-                    }}
+                    onClick={closeSidebar}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
                             e.preventDefault();
-                            setIsOpen(false);
-                            setOpenDialog(null);
+                            closeSidebar();
                         }
                     }}
                 />
@@ -190,7 +189,7 @@ const Sidebar = ({ children }: SidebarProps) => {
                             first.focus();
                         }
                     } else if (e.key === 'Escape') {
-                        setIsOpen(false);
+                        closeSidebar();
                     }
                 }}
             >
@@ -199,8 +198,7 @@ const Sidebar = ({ children }: SidebarProps) => {
                         <h2 className="text-2xl font-semibold">Menu</h2>
                         <StyledButton
                             onClick={() => {
-                                setIsOpen(false);
-                                setOpenDialog(null);
+                                closeSidebar();
                             }}
                             className="no-select inline-flex items-center justify-center !p-0 w-10 h-10 rounded-lg"
                             aria-label="Close sidebar"
@@ -221,8 +219,7 @@ const Sidebar = ({ children }: SidebarProps) => {
                                                 to={to}
                                                 className="flex-1 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white"
                                                 onClick={() => {
-                                                    setIsOpen(false);
-                                                    setOpenDialog(null);
+                                                    closeSidebar();
                                                 }}
                                             >
                                                 <span className="text-xl">{displayLabel}</span>
