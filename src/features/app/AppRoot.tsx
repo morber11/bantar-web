@@ -13,7 +13,7 @@ import { AppSettingsProvider } from '../../shared/context/AppSettingsContext';
 import { FavouritesProvider } from '../favourites/context/FavouritesContext';
 import { HistoryProvider } from '../history/context/HistoryContext';
 import { OfflineProvider } from '../../shared/context/OfflineContext';
-import { OfflineIndicator } from '../../shared/ui';
+import OfflineIndicator from '../../shared/ui/OfflineIndicator';
 import { ErrorBoundary } from './ErrorBoundary';
 import NotFoundPage from './NotFoundPage';
 import { warmOfflineCache } from './warmOfflineCache';

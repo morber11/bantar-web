@@ -8,7 +8,7 @@ import { useAppSettings } from '../../../shared/context/appSettingsContextImpl';
 import { navLinks } from '../routes';
 import { fetchAllEvents } from '../../events/api';
 
-import { ThemeToggle } from '../../../shared/ui';
+import ThemeToggle from '../../../shared/ui/ThemeToggle';
 
 
 interface SidebarProps {
