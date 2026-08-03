@@ -3,6 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAllEvents } from '../api';
 import type { EventItem } from '../types';
 
+function getRandomBetween(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export function useFetchEvents(opts?: { simulateMountLoading?: boolean; minMsRange?: [number, number] }) {
     const key = useMemo(() => ['events-list'], []);
 
@@ -13,10 +17,6 @@ export function useFetchEvents(opts?: { simulateMountLoading?: boolean; minMsRan
 
     const simulate = opts?.simulateMountLoading ?? false;
     const range: [number, number] = opts?.minMsRange ?? [800, 1200];
-
-    function getRandomBetween(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 
     const [minLoading, setMinLoading] = useState<boolean>(simulate ? true : false);
 
@@ -29,7 +29,7 @@ export function useFetchEvents(opts?: { simulateMountLoading?: boolean; minMsRan
     }, [simulate]);
 
     const loading = query.isLoading || minLoading;
-    
+
     // events returns events detail with a list of questions in it - need to flatten to get questions
     const list = (query.data ?? []).flatMap((ev) => {
         const label = ev.friendlyName ?? ev.name;
