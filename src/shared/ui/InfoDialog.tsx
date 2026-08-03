@@ -10,41 +10,27 @@ interface InfoDialogProps {
 }
 
 const InfoDialog = ({ title, text, open, onClose }: InfoDialogProps) => {
-    const ref = useRef<HTMLDivElement | null>(null);
+    const ref = useRef<HTMLDialogElement | null>(null);
 
     useEffect(() => {
-        if (open && ref.current) {
-            ref.current.focus();
+        const dialog = ref.current;
+        if (!dialog) return;
+
+        if (open && !dialog.open) {
+            dialog.showModal();
+        } else if (!open && dialog.open) {
+            dialog.close();
         }
     }, [open]);
 
-    if (!open) {
-        return null;
-    }
-
     return createPortal(
-        <div
+        <dialog
             ref={ref}
-            role="dialog"
-            aria-modal="true"
             aria-labelledby="info-dialog-title"
-            className="fixed inset-0 z-60 flex items-center justify-center"
-            tabIndex={-1}
-            onKeyDown={(e) => {
-                if (e.key === 'Escape') onClose();
-            }}
+            onClose={onClose}
+            className="m-auto bg-transparent p-0 border-0 rounded-lg"
         >
-            <button
-                type="button"
-                className="absolute inset-0 bg-black/50"
-                tabIndex={0}
-                aria-label="Close dialog"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onClose();
-                }}
-            />
-            <div className="relative bg-white text-slate-900 rounded-lg shadow-lg w-[min(90%,28rem)] p-6 z-10 border border-slate-800 ring-1 ring-slate-800">
+            <div className="bg-white text-slate-900 rounded-lg shadow-lg w-[min(90%,28rem)] p-6 border border-slate-800 ring-1 ring-slate-800">
                 <div className="flex items-start justify-between">
                     <div>
                         <h3 id="info-dialog-title" className="text-lg font-semibold">{title}</h3>
@@ -60,7 +46,7 @@ const InfoDialog = ({ title, text, open, onClose }: InfoDialogProps) => {
                     </button>
                 </div>
             </div>
-        </div>,
+        </dialog>,
         document.body
     );
 };

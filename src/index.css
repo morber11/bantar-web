@@ -4,100 +4,125 @@
 
 /* disable transitions during initial page load */
 html.no-transitions * {
-  transition: none !important;
+    transition: none !important;
 }
 
 * {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 button,
 a,
 [role="button"],
 .no-theme-transition {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
 }
 
 @layer base {
-  button {
-    @apply appearance-none;
-    @apply border-0;
-  }
+    button {
+        @apply appearance-none;
+        @apply border-0;
+    }
 }
 
 button:focus {
-  outline: none;
+    outline: none;
 }
+
 button:focus-visible {
-  box-shadow: 0 0 0 3px rgba(148,163,184,0.4);
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.4);
 }
 
 .sidebar {
-  transition-property: translate, transform, background-color, color, border-color;
-  transition-duration: 0.05s;
-  transition-timing-function: ease-in-out;
+    transition-property: translate, transform, background-color, color, border-color;
+    transition-duration: 0.05s;
+    transition-timing-function: ease-in-out;
 }
 
 /* if events are available, show a small animation to draw attention */
 @keyframes event-pop {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(1.07); }
-  50%  { transform: scale(1.07) rotate(-2deg); }
-  65%  { transform: scale(1.07) rotate(2deg); }
-  80%  { transform: scale(1.07) rotate(-1deg); }
-  90%  { transform: scale(1.04) rotate(0deg); }
-  100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.07);
+    }
+
+    50% {
+        transform: scale(1.07) rotate(-2deg);
+    }
+
+    65% {
+        transform: scale(1.07) rotate(2deg);
+    }
+
+    80% {
+        transform: scale(1.07) rotate(-1deg);
+    }
+
+    90% {
+        transform: scale(1.04) rotate(0deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .event-pop {
-  animation: event-pop 0.55s ease forwards;
+    animation: event-pop 0.55s ease forwards;
 }
 
 html {
-  scrollbar-width: thin;
-  scrollbar-color: #4b5563 #e2e8f0;
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #e2e8f0;
 }
 
 .sidebar {
-  scrollbar-width: thin;
-  scrollbar-color: #334155 transparent;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 transparent;
 }
 
 .sidebar nav {
-  padding-right: 8px;
+    padding-right: 8px;
 }
 
 .no-select {
-  -webkit-user-select: none;
-  user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 html,
 body,
 #root {
-  touch-action: pan-y;
+    touch-action: pan-y;
 }
 
 .sidebar,
 .sidebar nav {
-  -webkit-touch-callout: none;
-  touch-action: pan-y;
+    -webkit-touch-callout: none;
+    touch-action: pan-y;
 }
 
 body {
-  background-color: #ffffff;
-  color: #0f172a;
+    background-color: #ffffff;
+    color: #0f172a;
 }
 
 .dark body {
-  background-color: #0b1220;
-  color: #f8fafc;
+    background-color: #0b1220;
+    color: #f8fafc;
 }
 
 .dark html {
-  scrollbar-color: #475569 #0b1220;
+    scrollbar-color: #475569 #0b1220;
 }
 
 .dark .sidebar {
-  scrollbar-color: #475569 transparent;
+    scrollbar-color: #475569 transparent;
+}
+
+dialog::backdrop {
+    background-color: rgb(0 0 0 / 0.5);
 }
