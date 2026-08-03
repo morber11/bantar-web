@@ -7,6 +7,8 @@ function getRandomBetween(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+const DEFAULT_MIN_MS_RANGE: [number, number] = [800, 1200];
+
 export function useFetchEvents(opts?: { simulateMountLoading?: boolean; minMsRange?: [number, number] }) {
     const key = useMemo(() => ['events-list'], []);
 
@@ -16,7 +18,7 @@ export function useFetchEvents(opts?: { simulateMountLoading?: boolean; minMsRan
     });
 
     const simulate = opts?.simulateMountLoading ?? false;
-    const range: [number, number] = opts?.minMsRange ?? [800, 1200];
+    const range: [number, number] = opts?.minMsRange ?? DEFAULT_MIN_MS_RANGE;
 
     const [minLoading, setMinLoading] = useState<boolean>(simulate ? true : false);
 
@@ -26,7 +28,7 @@ export function useFetchEvents(opts?: { simulateMountLoading?: boolean; minMsRan
         const minMs = getRandomBetween(range[0], range[1]);
         const timer = setTimeout(() => setMinLoading(false), minMs);
         return () => clearTimeout(timer);
-    }, [simulate]);
+    }, [simulate, range]);
 
     const loading = query.isLoading || minLoading;
 
