@@ -42,6 +42,8 @@ const Sidebar = ({ children }: SidebarProps) => {
         };
 
         const handleTouchEnd = (e: TouchEvent) => {
+            if (e.changedTouches.length === 0) return;
+            
             touchEndX.current = e.changedTouches[0].clientX;
             const diff = touchStartX.current - touchEndX.current;
 
