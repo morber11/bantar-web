@@ -8,7 +8,6 @@ const FAV_KEY = 'bantar-favourites';
 const MAX_FAV_ITEMS = 300;
 
 function loadFromStorage(): FavouriteItem[] {
-    if (typeof window === 'undefined') return [];
     try {
         const stored = localStorage.getItem(FAV_KEY);
         return stored ? (JSON.parse(stored) as FavouriteItem[]) : [];
@@ -19,7 +18,6 @@ function loadFromStorage(): FavouriteItem[] {
 }
 
 function saveToStorage(items: FavouriteItem[]): void {
-    if (typeof window === 'undefined') return;
     try {
         localStorage.setItem(FAV_KEY, JSON.stringify(items.slice(0, MAX_FAV_ITEMS)));
     } catch (err) {
@@ -59,6 +57,10 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
         return () => window.removeEventListener('storage', storageHandler);
     }, []);
 
+    useEffect(() => {
+        saveToStorage(favourites);
+    }, [favourites]);
+
     const addToFavourites = (item: Omit<FavouriteItem, 'id' | 'timestamp'>): FavouriteItem => {
         const newItem: FavouriteItem = {
             ...item,
@@ -73,7 +75,6 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
             }
 
             const updated = dedupeByTextType([newItem, ...prev]).slice(0, MAX_FAV_ITEMS);
-            saveToStorage(updated);
 
             return updated;
         });
@@ -83,9 +84,7 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
 
     const removeFromFavourites = (id: string): void => {
         setFavourites(prev => {
-            const updated = prev.filter(f => f.id !== id);
-            saveToStorage(updated);
-            return updated;
+            return prev.filter(f => f.id !== id);
         });
     };
 
@@ -94,9 +93,7 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
             const existing = prev.find(f => f.text === item.text && f.type === item.type);
 
             if (existing) {
-                const updated = prev.filter(f => f.id !== existing.id);
-                saveToStorage(updated);
-                return updated;
+                return prev.filter(f => f.id !== existing.id);
             }
 
             const newItem: FavouriteItem = {
@@ -105,9 +102,7 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
                 timestamp: Date.now(),
             };
 
-            const updated = dedupeByTextType([newItem, ...prev]).slice(0, MAX_FAV_ITEMS);
-            saveToStorage(updated);
-            return updated;
+            return dedupeByTextType([newItem, ...prev]).slice(0, MAX_FAV_ITEMS);
         });
     };
 
@@ -117,7 +112,6 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
 
     const clearFavourites = (): void => {
         setFavourites([]);
-        saveToStorage([]);
     };
 
     return (

@@ -21,9 +21,6 @@ interface AppSettingsProviderProps {
 
 export const AppSettingsProvider = ({ children }: AppSettingsProviderProps) => {
   const [storedSettings, setStoredSettings] = useState<StoredSettings>(() => {
-    if (typeof window === 'undefined') {
-      return { showCategoryDetails: false, themeMode: 'system' };
-    }
     try {
       const stored = localStorage.getItem(SETTINGS_KEY);
       if (stored) {
@@ -42,31 +39,19 @@ export const AppSettingsProvider = ({ children }: AppSettingsProviderProps) => {
   const { themeMode, resolvedTheme, setThemeMode } = useTheme(storedSettings.themeMode);
 
   useEffect(() => {
-    setStoredSettings((prev) => {
-      const newSettings = { ...prev, themeMode };
-      try {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
-        }
-      } catch (err) {
-        console.error('Failed to save settings to localStorage:', err);
-      }
-      return newSettings;
-    });
+    setStoredSettings((prev) => ({ ...prev, themeMode }));
   }, [themeMode]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(storedSettings));
+    } catch (err) {
+      console.error('Failed to save settings to localStorage:', err);
+    }
+  }, [storedSettings]);
+
   const setShowCategoryDetails = (value: boolean) => {
-    setStoredSettings((prev) => {
-      const newSettings = { ...prev, showCategoryDetails: value };
-      try {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(SETTINGS_KEY, JSON.stringify(newSettings));
-        }
-      } catch (err) {
-        console.error('Failed to save settings to localStorage:', err);
-      }
-      return newSettings;
-    });
+    setStoredSettings((prev) => ({ ...prev, showCategoryDetails: value }));
   };
 
   return (
