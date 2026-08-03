@@ -6,6 +6,7 @@ import type { DebateItem } from '../types';
 
 const useFetchDebates = (categories: string[] = []) => {
     const key = useMemo(() => ['debates', { categories }], [categories]);
+    const categorySet = new Set(categories);
 
     const query = useQuery<DebateItem[], Error>({
         queryKey: key,
@@ -15,7 +16,7 @@ const useFetchDebates = (categories: string[] = []) => {
 
     return useOfflineFallback('debates', query, {
         writeOnSuccess: false,
-        filterFn: (item) => item.categories.some(c => categories.includes(c)),
+        filterFn: (item) => item.categories.some(c => categorySet.has(c)),
     });
 };
 

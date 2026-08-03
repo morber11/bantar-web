@@ -6,6 +6,7 @@ import type { ListItem } from '../types';
 
 const useFetchIcebreakers = (categories: string[] = []) => {
     const key = useMemo(() => ['icebreakers', { categories }], [categories]);
+    const categorySet = new Set(categories);
 
     const query = useQuery<ListItem[], Error>({
         queryKey: key,
@@ -15,7 +16,7 @@ const useFetchIcebreakers = (categories: string[] = []) => {
 
     return useOfflineFallback('icebreakers', query, {
         writeOnSuccess: false,
-        filterFn: (item) => item.categories.some(c => categories.includes(c)),
+        filterFn: (item) => item.categories.some(c => categorySet.has(c)),
     });
 };
 
