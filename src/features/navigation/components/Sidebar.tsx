@@ -43,7 +43,7 @@ const Sidebar = ({ children }: SidebarProps) => {
 
         const handleTouchEnd = (e: TouchEvent) => {
             if (e.changedTouches.length === 0) return;
-            
+
             touchEndX.current = e.changedTouches[0].clientX;
             const diff = touchStartX.current - touchEndX.current;
 
@@ -150,19 +150,13 @@ const Sidebar = ({ children }: SidebarProps) => {
                 </div>
             </StyledButton>
 
-            <div
+            <button
+                type="button"
                 className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-                role="button"
                 tabIndex={isOpen ? 0 : -1}
                 aria-label="Close sidebar"
                 aria-hidden={!isOpen}
                 onClick={closeSidebar}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-                        e.preventDefault();
-                        closeSidebar();
-                    }
-                }}
             />
 
             <aside
