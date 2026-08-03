@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useCallback, useMemo, useState, type ReactNode } from 'react';
 import type { HistoryType } from '../../../shared/types/history';
 import { generateId } from '../../../shared/utils/generateId';
 import type { FavouriteItem } from '../types';
@@ -106,25 +106,28 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
         });
     };
 
-    const isFavourited = (text: string, type: HistoryType): boolean => {
+    const isFavourited = useCallback((text: string, type: HistoryType): boolean => {
         return favourites.some(f => f.text === text && f.type === type);
-    };
+    }, [favourites]);
 
     const clearFavourites = (): void => {
         setFavourites([]);
     };
 
+    const contextValue = useMemo(
+        () => ({
+            favourites,
+            addToFavourites,
+            removeFromFavourites,
+            toggleFavourite,
+            isFavourited,
+            clearFavourites,
+        }),
+        [favourites, isFavourited]
+    );
+
     return (
-        <FavouritesContext.Provider
-            value={{
-                favourites,
-                addToFavourites,
-                removeFromFavourites,
-                toggleFavourite,
-                isFavourited,
-                clearFavourites,
-            }}
-        >
+        <FavouritesContext.Provider value={contextValue}>
             {children}
         </FavouritesContext.Provider>
     );

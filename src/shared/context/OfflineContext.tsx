@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { OfflineContext } from './offlineContextTypes';
 
 
@@ -25,8 +25,13 @@ export function OfflineProvider({ children }: { children: ReactNode }) {
         };
     }, [reportOffline]);
 
+    const contextValue = useMemo(
+        () => ({ isOffline, reportOffline }),
+        [isOffline, reportOffline]
+    );
+
     return (
-        <OfflineContext.Provider value={{ isOffline, reportOffline }}>
+        <OfflineContext.Provider value={contextValue}>
             {children}
         </OfflineContext.Provider>
     );

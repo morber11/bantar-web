@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, useMemo, type ReactNode } from 'react';
 import { generateId } from '../../../shared/utils/generateId';
 import { HistoryContext, type HistoryItem } from './historyContextTypes';
 
@@ -65,8 +65,13 @@ export function HistoryProvider({ children }: { children: ReactNode }) {
         setHistory(prev => prev.filter(item => item.id !== id));
     };
 
+    const contextValue = useMemo(
+        () => ({ history, addToHistory, clearHistory, removeFromHistory }),
+        [history]
+    );
+
     return (
-        <HistoryContext.Provider value={{ history, addToHistory, clearHistory, removeFromHistory }}>
+        <HistoryContext.Provider value={contextValue}>
             {children}
         </HistoryContext.Provider>
     );
