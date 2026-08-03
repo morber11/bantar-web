@@ -6,8 +6,9 @@ import useFetchDebates from '../hooks/useFetchDebates';
 import { debateCategoryKeys } from '../types';
 import Spinner from '../../../shared/ui/Spinner';
 
+const defaultCategories = [...debateCategoryKeys];
+
 export default function DebatesPage() {
-    const defaultCategories = [...debateCategoryKeys];
     const [selectedCategories, setSelectedCategories] = useState<string[]>(defaultCategories);
 
     const { list, loading, error } = useFetchDebates(selectedCategories);

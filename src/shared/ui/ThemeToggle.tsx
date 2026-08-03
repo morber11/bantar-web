@@ -13,14 +13,14 @@ const getButtonClassName = (currentMode: ThemeMode, buttonMode: ThemeMode, resol
   return 'bg-transparent text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/30';
 };
 
+const buttons: Array<{ mode: ThemeMode; label: string }> = [
+  { mode: 'light', label: 'Light' },
+  { mode: 'dark', label: 'Dark' },
+  { mode: 'system', label: 'System' },
+];
+
 const ThemeToggle = () => {
   const { themeMode, resolvedTheme, setThemeMode } = useAppSettings();
-
-  const buttons: Array<{ mode: ThemeMode; label: string }> = [
-    { mode: 'light', label: 'Light' },
-    { mode: 'dark', label: 'Dark' },
-    { mode: 'system', label: 'System' },
-  ];
 
   return (
     <div className="text-slate-700 dark:text-slate-200">
