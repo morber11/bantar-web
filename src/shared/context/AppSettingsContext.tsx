@@ -9,7 +9,7 @@ interface StoredSettings {
   themeMode: ThemeMode;
 }
 
-const SETTINGS_KEY = 'bantar-settings';
+const SETTINGS_KEY = 'bantar-settings:v1';
 
 const isValidThemeMode = (value: unknown): value is ThemeMode => {
   return value === 'light' || value === 'dark' || value === 'system';

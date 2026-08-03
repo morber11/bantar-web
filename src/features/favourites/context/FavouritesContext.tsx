@@ -4,7 +4,7 @@ import { generateId } from '../../../shared/utils/generateId';
 import type { FavouriteItem } from '../types';
 import { FavouritesContext } from './favouritesContextTypes';
 
-const FAV_KEY = 'bantar-favourites';
+const FAV_KEY = 'bantar-favourites:v1';
 const MAX_FAV_ITEMS = 300;
 
 function loadFromStorage(): FavouriteItem[] {

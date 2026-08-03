@@ -2,7 +2,7 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { generateId } from '../../../shared/utils/generateId';
 import { HistoryContext, type HistoryItem } from './historyContextTypes';
 
-const HISTORY_KEY = 'bantar-history';
+const HISTORY_KEY = 'bantar-history:v1';
 const MAX_HISTORY_ITEMS = 50;
 
 function loadFromStorage(): HistoryItem[] {
