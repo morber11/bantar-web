@@ -29,6 +29,7 @@ const ThemeToggle = () => {
         {buttons.map(({ mode, label }) => (
           <button
             key={mode}
+            type="button"
             aria-pressed={themeMode === mode}
             onClick={() => setThemeMode(mode)}
             className={`px-3 py-1 rounded-md transition-all ${getButtonClassName(themeMode, mode, resolvedTheme)}`}
