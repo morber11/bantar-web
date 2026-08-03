@@ -13,10 +13,6 @@ export function useTheme(initialMode: ThemeMode = 'system'): UseThemeReturn {
     const [themeMode, setThemeMode] = useState<ThemeMode>(initialMode);
 
     const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => {
-        if (typeof window === 'undefined') {
-            return 'light';
-        }
-
         if (initialMode === 'system') {
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
@@ -25,13 +21,6 @@ export function useTheme(initialMode: ThemeMode = 'system'): UseThemeReturn {
     });
 
     useEffect(() => {
-        if (typeof window === 'undefined') {
-            if (themeMode !== 'system') {
-                setResolvedTheme(themeMode as ResolvedTheme);
-            }
-            return;
-        }
-
         if (themeMode === 'system') {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -52,10 +41,6 @@ export function useTheme(initialMode: ThemeMode = 'system'): UseThemeReturn {
     }, [themeMode]);
 
     useEffect(() => {
-        if (typeof window === 'undefined') {
-            return;
-        }
-
         if (resolvedTheme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
