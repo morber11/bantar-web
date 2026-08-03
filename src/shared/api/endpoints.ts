@@ -1,7 +1,4 @@
 export const endpoints = {
-  // Health check
-  health: `/api/health`,
-
   // Icebreakers controller endpoints
   getAllIcebreakers: `/api/icebreakers/getAll`,
   getIcebreakerById: (id: number) => `/api/icebreakers/${id}`,

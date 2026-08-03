@@ -33,5 +33,3 @@ export const normalizeCategories = (items: string[] | undefined) => {
   if (!items || items.length === 0) return [] as string[];
   return items.map(normalizeCategory);
 };
-
-export default normalizeCategory;
