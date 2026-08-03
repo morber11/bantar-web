@@ -25,9 +25,12 @@ interface RandomListProps {
 }
 
 const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }: RandomListProps) => {
-    const [currentItem, setCurrentItem] = useState<SharedListItem | null>(null);
-    const currentItemRef = useRef<SharedListItem | null>(null);
-    currentItemRef.current = currentItem;
+    const [currentItem, setCurrentItem] = useState<SharedListItem | null>(() =>
+        list.length > 0 ? list[Math.floor(Math.random() * list.length)] : null
+    );
+
+    const [prevList, setPrevList] = useState(list);
+    const lastRecordedRef = useRef<SharedListItem | null>(null);
 
     const { addToHistory } = useHistory();
     const appSettings = useAppSettings();
@@ -35,35 +38,31 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
 
     const showDetails = showCategoryDetails ?? appSettings.showCategoryDetails;
 
-    useEffect(() => {
+    // so we can reuse this, store the previous list and only update the current item if the list has changed
+    if (list !== prevList) {
+        setPrevList(list);
         if (list.length === 0) {
-            if (currentItemRef.current !== null) {
-                setCurrentItem(null);
-            }
+            setCurrentItem(null);
+        } else if (!currentItem || !list.some(item => item.text === currentItem.text)) {
+            setCurrentItem(list[Math.floor(Math.random() * list.length)]);
+        }
+    }
+
+    useEffect(() => {
+        if (!itemType || !currentItem || lastRecordedRef.current === currentItem) {
             return;
         }
 
-        if (currentItemRef.current && list.some(item => item.text === currentItemRef.current!.text)) {
-            return;
-        }
-
-        const item = list[Math.floor(Math.random() * list.length)];
-        setCurrentItem(item);
-        if (itemType) {
-            addToHistory({
-                text: normalizeText(item.text),
-                type: itemType,
-                categories: normalizeCategories(item.categories),
-            });
-        }
-    }, [list, itemType, addToHistory]);
+        lastRecordedRef.current = currentItem;
+        addToHistory({
+            text: normalizeText(currentItem.text),
+            type: itemType,
+            categories: normalizeCategories(currentItem.categories),
+        });
+    }, [currentItem, itemType, addToHistory]);
 
     const pickRandomItem = () => {
-        if (list.length === 0) {
-            return;
-        }
-
-        if (isPicking) {
+        if (list.length === 0 || isPicking) {
             return;
         }
 
@@ -82,13 +81,6 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
         }
 
         setCurrentItem(nextItem);
-        if (itemType) {
-            addToHistory({
-                text: normalizeText(nextItem.text),
-                type: itemType,
-                categories: normalizeCategories(nextItem.categories),
-            });
-        }
         setIsPicking(false);
     };
 
