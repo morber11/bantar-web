@@ -1,7 +1,7 @@
 {
     "name": "bantar-web",
     "private": true,
-    "version": "1.1.0",
+    "version": "1.1.1",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -41,6 +41,7 @@
         "vite": "^7.1.2"
     }
 }
+
 
 
 
