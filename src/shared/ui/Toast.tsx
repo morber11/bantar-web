@@ -19,11 +19,13 @@ const Toast = ({ message, duration = 3000, onClose }: ToastProps) => {
   }, [onClose]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(() => onCloseRef.current(), FADE_OUT_DURATION);
-    }, duration);
-    return () => clearTimeout(timer);
+    const fadeTimer = setTimeout(() => setIsVisible(false), duration);
+    const closeTimer = setTimeout(() => onCloseRef.current(), duration + FADE_OUT_DURATION);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(closeTimer);
+    };
   }, [duration]);
 
   const fadeInKeyframes = `
