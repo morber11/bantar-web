@@ -6,6 +6,7 @@ services:
       args:
         VITE_API_URL: ${VITE_API_URL:-}
         VITE_APP_ENV: ${VITE_APP_ENV:-}
+        VITE_ALLOWED_HOSTS: ${VITE_ALLOWED_HOSTS:-}
     image: bantar-frontend:latest
     ports:
       - "4173:80"  
