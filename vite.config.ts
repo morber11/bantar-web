@@ -1,4 +1,5 @@
-import { defineConfig, loadEnv } from 'vite';
+import { loadEnv } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -40,6 +41,9 @@ export default defineConfig(({ mode }) => {
             proxy: env.VITE_APP_ENV === 'prod' ? (prodProxy ?? devProxy) : devProxy,
             allowedHosts,
             hmr: false,
+        },
+        test: {
+            environment: 'jsdom',
         },
     };
 });
