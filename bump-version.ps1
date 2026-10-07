@@ -69,3 +69,21 @@ try {
 Set-Content -Path $pkgPath -Value $newContent -Encoding UTF8
 
 Write-Host "package.json updated" -ForegroundColor Green
+
+$lockPath = Join-Path $PSScriptRoot 'package-lock.json'
+if (-not (Test-Path $lockPath)) {
+    Write-Error "package-lock.json not found at $lockPath"
+    exit 1
+}
+
+$lockContent = Get-Content $lockPath -Raw
+$topLevelRegex = [regex]'^(\{\s*"name"\s*:\s*"[^"]+",\s*"version"\s*:\s*")[^"]+(")'
+$rootPackageRegex = [regex]'("packages"\s*:\s*\{\s*""\s*:\s*\{\s*"name"\s*:\s*"[^"]+",\s*"version"\s*:\s*")[^"]+(")'
+
+$lockReplacement = '${1}' + $newVersion + '${2}'
+$lockContent = $topLevelRegex.Replace($lockContent, $lockReplacement)
+$lockContent = $rootPackageRegex.Replace($lockContent, $lockReplacement)
+
+Set-Content -Path $lockPath -Value $lockContent -Encoding UTF8 -NoNewline
+
+Write-Host "package-lock.json updated" -ForegroundColor Green
