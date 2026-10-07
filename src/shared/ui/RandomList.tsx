@@ -34,7 +34,6 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
 
     const { addToHistory } = useHistory();
     const appSettings = useAppSettings();
-    const [isPicking, setIsPicking] = useState(false);
 
     const showDetails = showCategoryDetails ?? appSettings.showCategoryDetails;
 
@@ -62,11 +61,9 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
     }, [currentItem, itemType, addToHistory]);
 
     const pickRandomItem = () => {
-        if (list.length === 0 || isPicking) {
+        if (list.length === 0) {
             return;
         }
-
-        setIsPicking(true);
 
         let nextItem: SharedListItem;
 
@@ -81,14 +78,12 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
         }
 
         setCurrentItem(nextItem);
-        setIsPicking(false);
     };
 
     const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
         if (
             (event.key === ' ' || event.key === 'Spacebar' || event.key === 'Enter') &&
             list.length > 0 &&
-            !isPicking &&
             currentItem
         ) {
             event.preventDefault();
@@ -131,7 +126,7 @@ const RandomList = ({ list, itemType, buttonLabel = 'New', showCategoryDetails }
                     )}
                 </div>
 
-                <StyledButton onClick={pickRandomItem} disabled={list.length === 0 || isPicking || !currentItem} aria-label="Pick random item">
+                <StyledButton onClick={pickRandomItem} disabled={list.length === 0 || !currentItem} aria-label="Pick random item">
                     {buttonLabel}
                 </StyledButton>
             </div>
